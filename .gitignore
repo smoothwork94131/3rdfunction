@@ -1,0 +1,7 @@
+.env
+.cpanel.yml
+/.vscode
+/node_modules
+/public/storage
+/public/assets/images
+/vendor
