@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\Generalsetting;
 use App\Models\UserCart;
 use App\Models\Product;
+use App\Models\Category;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -61,35 +62,9 @@ class CartController extends Controller
 
     public function addtocart($db, $id)
     {
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
-
-        $category = "";
-        if($db == "products") {
-            $category = "homecategory";
-            $section = "";
-        }
-        else {
-            $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
-
-            $series_parent = $series_info->parent;
-            
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
-                
-            $category = $category_info->name;
-
-            $section = DB::table($db . "_categories")
-                ->where("model", $prod->subcategory_id)
-                ->where("group_Id", $prod->category_id)
-                ->first(['section_name']);
-            
-            $section = $section->section_name;
-        }
+        $prod = Product::where('id', $id)->first();
+        $category_id = $prod->category_id;
+        $category_slug = Category::find($category_id)->category_slug;
         
         $keys = '';
         $values = '';
@@ -138,7 +113,7 @@ class CartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
 
-        $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values, $category, $section);
+        $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values, $category_slug);
         if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return redirect()->route('front.cart');
         }
@@ -183,35 +158,9 @@ class CartController extends Controller
 
     public function addcart($db, $id)
     {
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
-        
-        $category = "";
-        if($db == "products") {
-            $category = "homecategory";
-            $section = "";
-        }
-        else {
-            $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
-
-            $series_parent = $series_info->parent;
-            
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
-                
-            $category = $category_info->name;
-
-            $section = DB::table($db . "_categories")
-                ->where("model", $prod->subcategory_id)
-                ->where("group_Id", $prod->category_id)
-                ->first(['section_name']);
-            
-            $section = $section->section_name;
-        }
+        $prod = Product::where('id', $id)->first();
+        $category_id = $prod->category_id;
+        $category_slug = Category::find($category_id)->category_slug;
         
         // Set Attrubutes
         
@@ -296,7 +245,7 @@ class CartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
 
-        $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values, $category, $section);
+        $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values, $category_slug);
         if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
@@ -355,36 +304,10 @@ class CartController extends Controller
         $keys = $keys == "" ? '' : implode(',', $keys);
         $values = $values == "" ? '' : implode(',', $values);
         
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = Product::where('id', $id)->first();
+        $category_id = $prod->category_id;
+        $category_slug = Category::find($category_id)->category_slug;
 
-        $category = "";
-        if($db == "products") {
-            $category = "homecategory";
-            $section = "";
-        }
-        else {
-            $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
-
-            $series_parent = $series_info->parent;
-            
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
-                
-            $category = $category_info->name;
-
-            $section = DB::table($db . "_categories")
-                ->where("model", $prod->subcategory_id)
-                ->where("group_Id", $prod->category_id)
-                ->first(['section_name']);
-            
-            $section = $section->section_name;
-        }
-        
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
@@ -392,12 +315,7 @@ class CartController extends Controller
         }
 
         $size_price = ($size_price / $curr->value);
-        
-        if ($prod->user_id != 0) {
-            $gs = Generalsetting::findOrFail(1);
-            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-            $prod->price = round($prc, 2);
-        }
+
         if (!empty($prices)) {
             foreach ($prices as $data) {
                 $prod->price += ($data / $curr->value);
@@ -434,14 +352,12 @@ class CartController extends Controller
         $color = str_replace('#', '', $color);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $category, $section);
+        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $category_slug);
 
         if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
-        // if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
-        //     return 0;
-        // }
+        
         if (!empty($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
             if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return 0;
@@ -497,35 +413,9 @@ class CartController extends Controller
         $prices = explode(",", $prices);
         $keys = $keys == "" ? '' : implode(',', $keys);
 
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
-
-        $category = "";
-        if($db == "products") {
-            $category = "homecategory";
-            $section = "";
-        }
-        else {
-            $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
-
-            $series_parent = $series_info->parent;
-            
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
-                
-            $category = $category_info->name;
-
-            $section = DB::table($db . "_categories")
-                ->where("model", $prod->subcategory_id)
-                ->where("group_Id", $prod->category_id)
-                ->first(['section_name']);
-            
-            $section = $section->section_name;
-        }
+        $prod = Product::where('id', $id)->first();
+        $category_id = $prod->category_id;
+        $category_slug = Category::find($category_id)->category_slug;
 
         $values = $values == "" ? '' : implode(',', $values);
         if (Session::has('currency')) {
@@ -536,11 +426,6 @@ class CartController extends Controller
 
         $size_price = ($size_price / $curr->value);
         
-        if ($prod->user_id != 0) {
-            $gs = Generalsetting::findOrFail(1);
-            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-            $prod->price = round($prc, 2);
-        }
         if (!empty($prices)) {
             if (!empty($prices[0])) {
                 foreach ($prices as $data) {
@@ -579,7 +464,7 @@ class CartController extends Controller
         $color = str_replace('#', '', $color);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $category, $section);
+        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values, $category_slug);
         
         if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return redirect()->route('front.index')->with('error', 'This is digital');
@@ -638,13 +523,8 @@ class CartController extends Controller
         $itemid = $_GET['itemid'];
         $size_qty = $_GET['size_qty'];
         $size_price = $_GET['size_price'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
-        if ($prod->user_id != 0) {
-            $gs = Generalsetting::findOrFail(1);
-            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-            $prod->price = round($prc, 2);
-        }
+        $prod = Product::where('id', $id)->first();
 
         if (!empty($prod->license_qty)) {
             $lcheck = 1;
@@ -699,8 +579,6 @@ class CartController extends Controller
             }
         }
 
-        
-
         $data[0] = $cart->totalPrice;
 
         $data[3] = $data[0];
@@ -743,12 +621,8 @@ class CartController extends Controller
         $itemid = $_GET['itemid'];
         $size_qty = $_GET['size_qty'];
         $size_price = $_GET['size_price'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
-        if ($prod->user_id != 0) {
-            $gs = Generalsetting::findOrFail(1);
-            $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
-            $prod->price = round($prc, 2);
-        }
+
+        $prod = Product::where('id', $id)->first();
 
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -811,7 +685,8 @@ class CartController extends Controller
         $id = $_GET['id'];
         $color = $_GET['color'];
         $db = $_GET['db'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = Product::where('id', $id)->first();
+
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->updateColor($prod, $id, $color);
