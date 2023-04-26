@@ -133,7 +133,7 @@
                                         <div class="categories_menu">
                                             <div class="categories_title">
                                                 <h2 class="categori_toggle">
-                                                    <a href="{{route('front.category', $category->name)}}">{{ $category->name }}</a>
+                                                    <a href="{{route('front.category', $category->slug)}}">{{ $category->name }}</a>
                                                 </h2>
                                             </div>
                                         </div>
@@ -412,7 +412,7 @@
                                         <div class="categories_menu">
                                             <div class="categories_title" data-type="category">
                                                 <h2 class="categori_toggle">
-                                                    <a href="{{ route('front.category', $category->name) }}">
+                                                    <a href="{{ route('front.category', $category->slug) }}">
                                                         {{ $category->name }}
                                                     </a>
                                                 </h2>

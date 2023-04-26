@@ -5,40 +5,24 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="pages">
-                    <li><a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a></li>
-                    @php
-                    $index = 1;
-                    $route = '';
-                    if ($page != 'product') {
-                    $route = route('front.' . $page);
-                    }
-                    @endphp
-                    @foreach ($slug_list as $key => $item)
-                    @php
-
-                    $path = $item;
-                    if (strstr($path, '/')) {
-                    $path = str_replace('/', ':::', $path);
-                    }
-                    $route = $route . '/' . $path;
-
-                    @endphp
                     <li>
-                        @if (count($slug_list) == $index)
-                        <a>
-                            {{ $item }}
-                        </a>
-                        @else
-                        <a href="{{ $route }}">
-                            {{ $item }}
-                        </a>
-                        @endif
-
+                        <a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a>
                     </li>
-                    @php
-                    $index++;
-                    @endphp
-                    @endforeach
+                    <li>
+                        <a href="{{ route('front.collection') }}">
+                            Category
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('front.category', $category->slug) }}">
+                            {{ $category->name }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            {{ $productt->name }}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -58,7 +42,7 @@
                                 xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" />
                             <div class="xzoom-thumbs">
                                 <div class="all-slider">
-                                    <a href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}">
+                                    <a href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}">
                                         <img class="xzoom-gallery5" width="80" src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" title="The description goes here">
                                     </a>
                                 </div>

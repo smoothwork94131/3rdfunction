@@ -46,7 +46,13 @@ class CatalogController extends Controller
     public function product(Request $request, $category_slug = null, $product_slug = null)
     {   
         $this->code_image();
-        $productt = Product::where('slug', '=', $slug)->firstOrFail();
+        $category = Category::where('slug', $category_slug)->first();
+        $category_id = 0;
+        if($category) {
+            $category_id = $category->id;
+        }
+
+        $productt = Product::where('category_id', $category_id)->where('slug', '=', $product_slug)->firstOrFail();
         $productt->views += 1;
         $productt->update();
         
@@ -56,15 +62,10 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        $vendors = Product::where('status', '=', 1)->take(8)->get();
-
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        $db="product" ;
-        $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
-
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+        return view('front.product', compact('category', 'productt', 'curr', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
     public function report(Request $request)
