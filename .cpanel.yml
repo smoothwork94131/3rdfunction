@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - DEPLOYPATH=/home/pdfdataminer/public_html/
+    - /bin/cp -R * $DEPLOYPATH
