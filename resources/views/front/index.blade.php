@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">
                     <div>
-                        Over 500,000 3rdfunction products <br>and growing...
+                        3RD FUNCTION VALVES FOR EVERY SIZE TRACTOR
                     </div>
                 </div>
             </div>

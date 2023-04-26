@@ -27,7 +27,8 @@ use App\Classes\GeniusMailer;
 class CatalogController extends Controller
 {
     public function collection(Request $request) {
-
+        $categories = Category::where('status', 1)->get();
+        return view('front.collection', compact('categories'));
     }
     
     public function category(Request $request, $category_slug = null)
