@@ -10,13 +10,13 @@
         <ul class="dropdown-cart-products">
             @foreach (Session::get('cart')->items as $product)
                 <li class="product cremove{{ ($product['db'] ?? 'products') . $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                    <a href="{{ $product['db'] == 'products' ? route('front.homeproduct', $product['item']->slug) : route('front.product', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                    <a href="{{ $product['db'] == 'products' ? route('front.product', $product['item']->slug) : route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
                         <div class="product-details">
                             <div class='img'>
                                 @if($product['db'] == 'products')
-                                <img src="{{ $product['item']->photo ? (filter_var($product['item']->photo, FILTER_VALIDATE_URL) ? $product['item']->photo : asset('assets/images/products_home/' . $product['item']->photo)) : asset('assets/images/noimage.png') }}" alt="product">
-                                @else
                                 <img src="{{ $product['item']->photo ? (filter_var($product['item']->photo, FILTER_VALIDATE_URL) ? $product['item']->photo : asset('assets/images/products/' . $product['item']->photo)) : asset('assets/images/noimage.png') }}" alt="product">
+                                @else
+                                <img src="{{ $product['item']->photo ? (filter_var($product['item']->photo, FILTER_VALIDATE_URL) ? $product['item']->photo : asset('assets/images/products_home/' . $product['item']->photo)) : asset('assets/images/noimage.png') }}" alt="product">
                                 @endif
                             </div>
                             <div class="content">

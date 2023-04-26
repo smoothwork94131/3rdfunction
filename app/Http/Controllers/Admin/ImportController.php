@@ -29,7 +29,7 @@ class ImportController extends Controller
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $id = '<small>Product ID: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
+                $id = '<small>Product ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
                 $id2 = $data->user_id != 0 ? (count($data->user->products) > 0 ? '<small class="ml-2"> Vendor: <a href="' . route('admin-vendor-show', $data->user_id) . '" target="_blank">' . $data->user->shop_name . '</a></small>' : '') : '';
                 return $name . '<br>' . $id . $id2;
             })

@@ -28,11 +28,11 @@
     @if (Auth::guard('admin')->user()->sectionCheck('products'))
         <li>
             <a href="#menu2" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-                <i class="icofont-cart"></i>{{ __('Home Products') }}
+                <i class="icofont-cart"></i>{{ __('Products') }}
             </a>
             <ul class="collapse list-unstyled" id="menu2" data-parent="#accordion">
                 <li>
-                    <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Home Products') }}</span></a>
+                    <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
                 </li>
                 {{-- <li>
                     <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
@@ -57,24 +57,6 @@
             </ul>
         </li>
     @endif
-
-    <li>
-        <a href="#strain" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-            <i class="icofont-cart"></i>{{ __('Strains') }}
-        </a>
-        <ul class="collapse list-unstyled" id="strain" data-parent="#accordion">
-            <li>
-                <a href="{{ route('admin-strain-create') }}"><span>{{ __('Add Strain') }}</span></a>
-            </li>
-            <li>
-                <a href="{{ route('admin-strain-index') }}"><span>{{ __('All Strains') }}</span></a>
-            </li>
-
-            <li>
-                <a href="{{ route('admin-pendingstrain-index') }}"><span>{{ __('Pending Strains') }}</span></a>
-            </li>
-        </ul>
-    </li>
 
     @if (Auth::guard('admin')->user()->sectionCheck('customers'))
         <li>

@@ -7,7 +7,7 @@ use App\Models\Subcategory;
 use Datatables;
 use Carbon\Carbon;
 use App\Models\Product;
-use App\Models\CategoryHome;
+use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Gallery;
 use App\Models\Attribute;
@@ -41,10 +41,10 @@ class ProductController extends Controller
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $id = '<small>ID: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
+                $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
                 $id2 = $data->user_id != 0 ? (count($data->user->products) > 0 ? '<small class="ml-2"> VENDOR: <a href="' . route('admin-vendor-show', $data->user_id) . '" target="_blank">' . $data->user->shop_name . '</a></small>' : '') : '';
 
-                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
+                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
 
                 return $name . '<br>' . $id . $id3 . $id2;
             })
@@ -95,9 +95,9 @@ class ProductController extends Controller
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $id = '<small>ID: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
+                $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
 
-                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
+                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
 
                 return $name . '<br>' . $id . $id3;
             })
@@ -150,14 +150,14 @@ class ProductController extends Controller
     //*** GET Request
     public function create()
     {
-        $cats = CategoryHome::all();
+        $cats = Category::all();
         $locs = StoreLocations::all();
         $sign = Currency::where('is_default', '=', 1)->first();
         return view('admin.product.create', compact('cats', 'sign', 'locs'));
     }
 
     public function existing() {
-        $homecategories = CategoryHome::orderBy('name', 'asc')->get();
+        $homecategories = Category::orderBy('name', 'asc')->get();
         
         return view('admin.product.existing', array('homecategories' => $homecategories));
     }
@@ -364,53 +364,26 @@ class ProductController extends Controller
         $image = base64_decode($image);
         $image_name = time() . str_random(8) . '.png';
 
-        // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-        // $removebg = new RemoveBg($apiKey);
-
-        $path = public_path() .'/assets/images/products_home/' . $image_name;
+        $path = public_path() .'/assets/images/products/' . $image_name;
         file_put_contents($path, $image);
 
-        $removebg->file($path)
-        ->headers([
-            'X-Width' => 600,
-            'X-Height' => 600,
-        ])
-        ->body([
-            'size' => '4k', // regular, medium, hd, 4k, auto
-            'channels' => 'rgba', // rgba, alpha
-        ])
-        ->save($path);
-
         if ($data->photo != null) {
-            if (file_exists(public_path() . '/assets/images/products_home/' . $data->photo)) {
-                unlink(public_path() . '/assets/images/products_home/' . $data->photo);
+            if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
+                unlink(public_path() . '/assets/images/products/' . $data->photo);
             }
         }
         $input['photo'] = $image_name;
         $data->update($input);
 
         if ($data->thumbnail != null) {
-            if (file_exists(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail)) {
-                unlink(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail);
+            if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail)) {
+                unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
             }
         }
 
-        $img = Image::make(public_path() . '/assets/images/products_home/' . $data->photo)->resize(285, 285);
-
+        $img = Image::make(public_path() . '/assets/images/products/' . $data->photo)->resize(285, 285);
         $thumbnail = time() . str_random(8) . '.png';
-
-        $img->save(public_path() . '/assets/images/thumbnails_home/' . $thumbnail);
-
-        $removebg->file(public_path() . '/assets/images/thumbnails_home/' . $thumbnail)
-        ->headers([
-            'X-Width' => 600,
-            'X-Height' => 600,
-        ])
-        ->body([
-            'size' => '4k', // regular, medium, hd, 4k, auto
-            'channels' => 'rgba', // rgba, alpha
-        ])
-        ->save(public_path() . '/assets/images/thumbnails_home/' . $thumbnail);
+        $img->save(public_path() . '/assets/images/thumbnails/' . $thumbnail);
 
         $data->thumbnail = $thumbnail;
         $data->update();
@@ -421,7 +394,6 @@ class ProductController extends Controller
     //*** POST Request
     public function store(Request $request)
     {
-        
         $gs = Generalsetting::findOrFail(1);   
         if(1)
         {
@@ -465,20 +437,19 @@ class ProductController extends Controller
                 $product_name = $input['name'];
 
                 if($input['category_id']){
-                    $category_name = CategoryHome::findOrFail($input['category_id'])->name;
+                    $category_name = Category::findOrFail($input['category_id'])->name;
                 }
 
                 $name = $category_name."-".$product_name.".png";
                 $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
                 $file = $request->file('photo');
-                // $file->move('public/assets/images/products_home/',$name);
-                move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
+                move_uploaded_file($file, public_path() . '/assets/images/products/' . $name);
 
-                $img = Image::make(public_path().'/assets/images/products_home/'.$name)->resize(285, 285);
+                $img = Image::make(public_path().'/assets/images/products/'.$name)->resize(285, 285);
             
                 $thumbnail = str_replace('.png', '-tn.png', $name);
-                $img->save(public_path().'/assets/images/thumbnails_home/'.$thumbnail);
+                $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
 
                 $input['photo'] = $name;
                 $input['thumbnail'] = $thumbnail;
@@ -595,7 +566,7 @@ class ProductController extends Controller
             //test comment for update
             $attrArr = [];
             if (!empty($request->category_id)) {
-                $catAttrs = Attribute::where('attributable_id', $request->category_id)->where('attributable_type', 'App\Models\CategoryHome')->get();
+                $catAttrs = Attribute::where('attributable_id', $request->category_id)->where('attributable_type', 'App\Models\Category')->get();
                 if (!empty($catAttrs)) {
                     foreach ($catAttrs as $key => $catAttr) {
                         $in_name = $catAttr->input_name;
@@ -832,7 +803,7 @@ class ProductController extends Controller
         if (!Product::where('id', $id)->exists()) {
             return redirect()->route('admin.dashboard')->with('unsuccess', __('Sorry the page does not exist.'));
         }
-        $cats = CategoryHome::all();
+        $cats = Category::all();
         $data = Product::findOrFail($id);
         $sign = Currency::where('is_default', '=', 1)->first();
         $locs = StoreLocations::all();
@@ -886,8 +857,8 @@ class ProductController extends Controller
         {              
             if($data->photo != null)
             {
-                if (file_exists(public_path().'/assets/images/products_home/'.$data->photo)) {
-                    unlink(public_path().'/assets/images/products_home/'.$data->photo);
+                if (file_exists(public_path().'/assets/images/products/'.$data->photo)) {
+                    unlink(public_path().'/assets/images/products/'.$data->photo);
                 }
             }   
 
@@ -895,7 +866,7 @@ class ProductController extends Controller
             $product_name = $input['name'];
 
             if($input['category_id']){
-                $category_name = CategoryHome::findOrFail($input['category_id'])->name;
+                $category_name = Category::findOrFail($input['category_id'])->name;
             }
 
             $name = $category_name."-".$product_name.".png";
@@ -907,10 +878,7 @@ class ProductController extends Controller
 
             $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
-            // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-            // $removebg = new RemoveBg($apiKey);
-            // $file->move('public/assets/images/products_home/', $name);
-            move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
+            move_uploaded_file($file, public_path() . '/assets/images/products/' . $name);
             $input['photo'] = $name;
         } 
         //Check Types
@@ -1117,15 +1085,15 @@ class ProductController extends Controller
             $prod = Product::find($data->id);
         
             // Set Thumbnail
-            $img = Image::make(public_path().'/assets/images/products_home/'.$prod->photo)->resize(285, 285);
+            $img = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(285, 285);
             
-            if (file_exists(public_path().'/assets/images/thumbnails_home/'.$data->thumbnail)) {
-                unlink(public_path().'/assets/images/thumbnails_home/'.$data->thumbnail);
+            if (file_exists(public_path().'/assets/images/thumbnails/'.$data->thumbnail)) {
+                unlink(public_path().'/assets/images/thumbnails/'.$data->thumbnail);
             }
             
             $thumbnail = str_replace('.png', '-tn.png', $prod->photo);
             
-            $img->save(public_path().'/assets/images/thumbnails_home/'.$thumbnail);
+            $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
          
             $prod->thumbnail  = $thumbnail;
             $prod->update();
@@ -1273,13 +1241,13 @@ class ProductController extends Controller
 
 
         if (!filter_var($data->photo, FILTER_VALIDATE_URL)) {
-            if (file_exists(public_path() . '/assets/images/products_home/' . $data->photo)) {
-                unlink(public_path() . '/assets/images/products_home/' . $data->photo);
+            if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
+                unlink(public_path() . '/assets/images/products/' . $data->photo);
             }
         }
 
-        if (file_exists(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail) && $data->thumbnail != "") {
-            unlink(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail);
+        if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail) && $data->thumbnail != "") {
+            unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
         }
 
         if ($data->file != null) {

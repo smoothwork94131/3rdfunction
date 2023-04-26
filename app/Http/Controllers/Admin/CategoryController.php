@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Datatables;
-use App\Models\CategoryHome;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -18,22 +18,22 @@ class CategoryController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = CategoryHome::orderBy('order','desc')->get();
+         $datas = Category::orderBy('order','desc')->get();
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
-                ->addColumn('status', function(CategoryHome $data) {
+                ->addColumn('status', function(Category $data) {
                     $class = $data->status == 1 ? 'drop-success' : 'drop-danger';
                     $s = $data->status == 1 ? 'selected' : '';
                     $ns = $data->status == 0 ? 'selected' : '';
                     return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
                 })
-                ->addColumn('cod', function(CategoryHome $data) {
+                ->addColumn('cod', function(Category $data) {
                     $class = $data->cod == 1 ? 'drop-success' : 'drop-danger';
                     $s = $data->cod == 1 ? 'selected' : '';
                     $ns = !$data->cod ? 'selected' : '';
                     return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
                 })
-                ->addColumn('attributes', function(CategoryHome $data) {
+                ->addColumn('attributes', function(Category $data) {
                     $buttons = '<div class="action-list"><a data-href="' . route('admin-attr-createForCategory', $data->id) . '" class="attribute" data-toggle="modal" data-target="#attribute"> <i class="fas fa-edit"></i>Create</a>';
                     if ($data->attributes()->count() > 0) {
                         $buttons .= '<a href="' . route('admin-attr-manage', $data->id) .'?type=category' . '" class="edit"> <i class="fas fa-edit"></i>Manage</a>';
@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
                     return $buttons;
                 })
-                ->addColumn('action', function(CategoryHome $data) {
+                ->addColumn('action', function(Category $data) {
                     return '<div class="action-list"><a data-href="' . route('admin-cat-edit',$data->id) . '" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a><a href="javascript:;" data-href="' . route('admin-cat-delete',$data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i></a></div>';
                 })
                 ->rawColumns(['status','attributes','action', 'cod'])
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $rules = [
             'photo' => 'mimes:jpeg,jpg,png,svg',
             'slug' => 'unique:categories|regex:/^[a-zA-Z0-9\s-]+$/',
-            'order' => 'unique:categories_home|integer|min:0'
+            'order' => 'unique:categories|integer|min:0'
         ];
 
         $customs = [
@@ -85,11 +85,11 @@ class CategoryController extends Controller
         //--- Validation Section Ends
 
         //--- Logic Section
-        $data = new CategoryHome();
+        $data = new Category();
         $input = $request->all();
         if ($file = $request->file('photo'))
         {
-            $name = time().$file->getClientOriginalName();
+            $name = time().str_replace(' ', '', $file->getClientOriginalName());
             $file->move('assets/images/categories',$name);
             $input['photo'] = $name;
         }
@@ -131,7 +131,7 @@ class CategoryController extends Controller
     //*** GET Request
     public function edit($id)
     {
-        $data = CategoryHome::findOrFail($id);
+        $data = Category::findOrFail($id);
         return view('admin.category.edit',compact('data'));
     }
 
@@ -141,8 +141,8 @@ class CategoryController extends Controller
         //--- Validation Section
         $rules = [
         	'photo' => 'mimes:jpeg,jpg,png,svg',
-        	'slug' => 'unique:categories_home,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/',
-            'order' => 'unique:categories_home|integer|min:0'
+        	'slug' => 'unique:categories,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/',
+            'order' => 'unique:categories|integer|min:0'
         ];
 
         $customs = [
@@ -158,11 +158,11 @@ class CategoryController extends Controller
         //--- Validation Section Ends
 
         //--- Logic Section
-        $data = CategoryHome::findOrFail($id);
+        $data = Category::findOrFail($id);
         $input = $request->all();
             if ($file = $request->file('photo'))
             {
-                $name = time().$file->getClientOriginalName();
+                $name = time().str_replace(' ', '', $file->getClientOriginalName());
                 $file->move('assets/images/categories',$name);
                 if($data->photo != null)
                 {
@@ -211,14 +211,14 @@ class CategoryController extends Controller
       //*** GET Request Status
       public function status($id1,$id2)
       {
-          $data = CategoryHome::findOrFail($id1);
+          $data = Category::findOrFail($id1);
           $data->status = $id2;
           $data->update();
       }
 
       public function cod($id1,$id2)
       {
-          $data = CategoryHome::findOrFail($id1);
+          $data = Category::findOrFail($id1);
           $data->cod = $id2;
           $data->update();
       }
@@ -227,7 +227,7 @@ class CategoryController extends Controller
     //*** GET Request Delete
     public function destroy($id)
     {
-        $data = CategoryHome::findOrFail($id);
+        $data = Category::findOrFail($id);
 
         if($data->attributes->count() > 0)
         {

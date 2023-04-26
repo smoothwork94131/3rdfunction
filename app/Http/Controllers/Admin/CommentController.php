@@ -23,7 +23,7 @@ class CommentController extends Controller
         return Datatables::of($datas)
             ->addColumn('product', function (Comment $data) {
                 $name = mb_strlen(strip_tags($data->product->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->product->name), 0, 50, 'utf-8') . '...' : strip_tags($data->product->name);
-                $product = '<a href="' . route('front.homeproduct', $data->product->slug) . '" target="_blank">' . $name . '</a>';
+                $product = '<a href="' . route('front.roduct', $data->product->slug) . '" target="_blank">' . $name . '</a>';
                 return $product;
             })
             ->addColumn('commenter', function (Comment $data) {

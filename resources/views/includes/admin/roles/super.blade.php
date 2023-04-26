@@ -32,11 +32,11 @@
 </li>
 <li>
     <a href="#menu2" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-        <i class="icofont-cart"></i>{{ __('Home Products') }}
+        <i class="icofont-cart"></i>{{ __('Products') }}
     </a>
     <ul class="collapse list-unstyled" id="menu2" data-parent="#accordion">
         <li>
-            <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Home Products') }}</span></a>
+            <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
         </li>
         {{-- <li>
             <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>

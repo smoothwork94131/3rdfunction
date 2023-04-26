@@ -40,7 +40,7 @@
             @foreach($products as $key=>$prod)
                 <tr>
                     <td class='td-img'>
-                        <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                        <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                     </td>
                     <td>
                         @php 

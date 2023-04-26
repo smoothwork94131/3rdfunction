@@ -37,13 +37,13 @@ class SearchController extends Controller{
 
         $search_word_array = array_values($search_word_array);
 
-        $category = DB::table('categories')
+        $category = DB::table('categories_home')
                 ->where('name', $tbl_name)
                 ->get();
 
         $category_id = $category[0]->id;
 
-        $series = DB::table('categories')
+        $series = DB::table('categories_home')
                 ->where('parent', $category_id)
                 ->where('status', 1)
                 ->get();
@@ -234,13 +234,13 @@ class SearchController extends Controller{
 
         $search_word_array = array_values($search_word_array);
 
-        $category = DB::table('categories')
+        $category = DB::table('categories_home')
                 ->where('name', $tbl_name)
                 ->get();
 
         $category_id = $category[0]->id;
 
-        $series = DB::table('categories')
+        $series = DB::table('categories_home')
                 ->where('parent', $category_id)
                 ->where('status', 1)
                 ->get();

@@ -16,7 +16,7 @@
                     </div>
                     <div class="right">
                         <h4 class="title">
-                            <a href="{{ route('front.homeproduct', $wishlist->slug) }}">
+                            <a href="{{ route('front.product', $wishlist->slug) }}">
                                 {{ $wishlist->name }}
                             </a>
                         </h4>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="right">
                         <h4 class="title">
-                            <a href="{{ route('front.homeproduct', $wishlist->product->slug) }}">
+                            <a href="{{ route('front.product', $wishlist->product->slug) }}">
                                 {{ $wishlist->product->name }}
                             </a>
                         </h4>

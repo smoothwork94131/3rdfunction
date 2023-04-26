@@ -1,4 +1,4 @@
-<a href="{{ route('front.homeproduct', $prod->slug) }}" class="prod-item item">
+<a href="{{ route('front.product', ['category_slug' => $category_slug, 'product_slug' => $prod->slug]) }}" class="prod-item item">
     <div class="prod-init">
         <div class="prod-top">
             <h2 class="prod-name"
@@ -134,25 +134,25 @@
 
         <div class="cart-area">
             @if ($prod->emptyStock())
-                    <span class="add-to-cart-btn cart-out-of-stock">
-                        <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
-                    </span>
-                @else
-                    <span class="add-to-cart add-to-cart-btn"
-                        data-href="{{ route('product.cart.add', ['db' => 'products', 'id' => $prod->id]) }}"
-                        style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color ? $colorsetting_style2->buttons_color : 'green' }};">
-                        <i class="icofont-cart"></i> {{ $langg->lang56 }}
-                    </span>
-                    <span class="add-to-cart-quick add-to-cart-btn"
-                        data-href="{{ route('product.cart.quickadd', ['db' => 'products', 'id' => $prod->id]) }}"
-                        style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color ? $colorsetting_style2->buttons_color : 'green' }};">
-                        <i class="icofont-cart"></i> {{ $langg->lang251 }}
-                    </span>
-                @endif
+                <span class="add-to-cart-btn cart-out-of-stock">
+                    <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
+                </span>
+            @else
+                <span class="add-to-cart add-to-cart-btn"
+                    data-href="{{ route('product.cart.add', ['db' => 'products', 'id' => $prod->id]) }}"
+                    style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color ? $colorsetting_style2->buttons_color : 'green' }};">
+                    <i class="icofont-cart"></i> {{ $langg->lang56 }}
+                </span>
+                <span class="add-to-cart-quick add-to-cart-btn"
+                    data-href="{{ route('product.cart.quickadd', ['db' => 'products', 'id' => $prod->id]) }}"
+                    style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color ? $colorsetting_style2->buttons_color : 'green' }};">
+                    <i class="icofont-cart"></i> {{ $langg->lang251 }}
+                </span>
+            @endif
         </div>
     </div>
 
     <img class="prod-image"
-        src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/' . $prod->thumbnail) : asset('assets/images/products/' . $gs->prod_image) }}"
+        src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/' . $prod->thumbnail) : asset('assets/images/products/' . $gs->prod_image) }}"
         alt="">
 </a>

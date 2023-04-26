@@ -73,7 +73,6 @@
                                         </div>
 
                                         <div class="form-input">
-                                            
                                             <input type="hidden" id="postal_code" name="zip" required=""/>
                                             <input type="hidden" id="country" name="country" required=""/>
                                             <input type="hidden" id="locality" name="city" required="">
@@ -113,66 +112,6 @@
                                             </div>
 
                                         @endif
-
-                                        {{-- <div class="form-input d-flex align-items-center justify-content-center">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="vendor_switch" name="vendor">
-                                                <label class="custom-control-label" for="vendor_switch">Buyer/Vendor</label>
-                                            </div>
-                                        </div> --}}
-                                        
-                                        <div id="vendor_input_section">
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" name="shop_name" placeholder="Company Name">
-                                                <i class="icofont-cart-alt"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <div class="form-forgot-pass">
-                                                    <div class="left">
-                                                        <input type="checkbox" id="same_user_name">
-                                                        <label for="same_user_name">Same User Name</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" id="owner_name" name="owner_name" placeholder="{{ $langg->lang239 }}">
-                                                <i class="icofont-cart"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <div class="form-forgot-pass">
-                                                    <div class="left">
-                                                        <input type="checkbox" id="same_user_number">
-                                                        <label for="same_user_number">Same User Phone Number</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" id="shop_number" name="shop_number" placeholder="{{ $langg->lang240 }}">
-                                                <i class="icofont-shopping-cart"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <div class="form-forgot-pass">
-                                                    <div class="left">
-                                                        <input type="checkbox" id="same_user_address">
-                                                        <label for="same_user_address">Same User Address</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" id="shop_address" name="shop_address" placeholder="{{ $langg->lang241 }}">
-                                                <i class="icofont-opencart"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <textarea class="User Name" id="shop_message" name="shop_message" placeholder="{{ $langg->lang243 }}"></textarea>
-                                            </div>
-                                        </div>
 
                                         <div class="form-input">
                                             <div class="form-forgot-pass">
@@ -217,7 +156,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1jKOFLhfQoZD3xJISSPnSW9-4SyYPpjY&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+    <script src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
     
     <script>
         let placeSearch;
@@ -243,7 +182,6 @@
 
         function fillInAddress() {
             const place = autocomplete.getPlace();
-
             var location = JSON.parse(JSON.stringify(place.geometry.location));
 
             var position = "lat:" + location.lat + ",lng:" + location.lng;
@@ -251,10 +189,10 @@
             
             for (const component in componentForm) {
                 document.getElementById(component).value = "";
-                // document.getElementById(component).disabled = false;
             }
 
             for (const component of place.address_components) {
+                console.log(component)
                 const addressType = component.types[0];
 
                 if (componentForm[addressType]) {

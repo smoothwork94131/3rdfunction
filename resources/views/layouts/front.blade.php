@@ -81,7 +81,8 @@
                         <form action="{{ route('front.subscribe') }}" id="subscribeform" method="POST">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="{{ $langg->lang741 }}" required="">
+                                <input type="email" name="email" placeholder="{{ $langg->lang741 }}"
+                                    required="">
                                 <button id="sub-btn" type="submit">{{ $langg->lang742 }}</button>
                             </div>
                         </form>
@@ -123,29 +124,17 @@
 
                     <li class="dropdown nav-item dropbtn">
                         <a class="nav-link root-link" data-toggle="dropdown" style='cursor:pointer'>
-                            Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
+                            Category<i class="fa fa-angle-down ml-2 mt-1"></i>
                         </a>
                         <ul class='dropdown-content'>
-                            <div class="categories_menu" style='width: 600px;!important'>
-                                <div class="categories_title">
-                                    <h2 class="categori_toggle"> Categories </h2>
-                                </div>
+                            <div class="categories_menu">
                                 <div class="categories_menu_inner products">
-                                    @foreach ($eccategories as $product)
+                                    @foreach ($categories as $category)
                                         <div class="categories_menu">
-                                            <div class="categories_title" data-type="category"
-                                                data-category="{{ $product->name }}"
-                                                data-url="{{ route('front.groups') }}"
-                                                data-domain="{{ $domain_name }}" data-status="0"
-                                                data-token="{{ csrf_token() }}">
-                                                <h2 class="categori_toggle"> {{ $product->name }}
-                                                    <i class="fa fa-angle-down arrow-down"
-                                                        style='margin-left: 5px'></i>
+                                            <div class="categories_title">
+                                                <h2 class="categori_toggle">
+                                                    <a href="{{route('front.category', $category->name)}}">{{ $category->name }}</a>
                                                 </h2>
-                                            </div>
-                                            <div class="categories_menu_inner models"
-                                                style="max-height: 300px; overflow-y: auto;">
-                                                loading...
                                             </div>
                                         </div>
                                     @endforeach
@@ -294,18 +283,17 @@
                 <div class="col-lg-2 col-sm-3 socials-div business-info-socialmedia" align="center">
                     <div class="social-media">
                         <a>
-                            <button class='btn' style='background: #F05223'
-                                onclick="showDesktopSearchField(this)"><i class='fa fa-search'></i></button>
+                            <button class='btn' style='background: #F05223' onclick="showDesktopSearchField(this)"><i class='fa fa-search'></i></button>
                             <div class='desktop-search-field'>
                                 <div class='search-table'>
                                     <div class='sel-drop' onclick='searchSelTableGroup()'>
-                                        <div class='name'>{{ $eccategories[0]->name }}</div>
+                                        <div class='name'>{{ $categories[0]->name }}</div>
                                         <div class='icon'>
                                             <i class="fa fa-angle-down ml-2 mt-1"></i>
                                         </div>
                                     </div>
                                     <div class='dropdown'>
-                                        @foreach ($eccategories as $item)
+                                        @foreach ($categories as $item)
                                             <div class='item' onclick="selSearchTableItem('{{ $item->name }}')">
                                                 {{ $item->name }}</div>
                                         @endforeach
@@ -314,9 +302,7 @@
 
                                 <div style='margin-top: 10px;'>
                                     <div class='search-field'>
-                                        <input class='search-input form-control'
-                                            onkeyup="totalSearch(event, 'desktop')"
-                                            value="{{ $eccategories[0]->name }}" />
+                                        <input class='search-input form-control' onkeyup="totalSearch(event, 'desktop')" value="{{ $categories[0]->name }}" />
                                         <div class='icon'><i class='fa fa-search'
                                                 onclick=" event.keyCode = 1200 ; totalSearch(event, 'desktop')"></i>
                                         </div>
@@ -360,13 +346,13 @@
         <div class='mobile-search-field'>
             <div class='search-table'>
                 <div class='sel-drop' onclick='searchSelTableGroup()'>
-                    <div class='name'>{{ $eccategories[0]->name }}</div>
+                    <div class='name'>{{ $categories[0]->name }}</div>
                     <div class='icon'>
                         <i class="fa fa-angle-down ml-2 mt-1"></i>
                     </div>
                 </div>
                 <div class='dropdown'>
-                    @foreach ($eccategories as $item)
+                    @foreach ($categories as $item)
                         <div class='item' onclick="selSearchTableItem('{{ $item->name }}')">{{ $item->name }}
                         </div>
                     @endforeach
@@ -412,9 +398,9 @@
                         </a>
                     </li>
                     <li class="dropdown nav-item dropbtn">
-                        <a class="nav-link root-link" data-toggle="collapse" data-target="#collapse_parts"
-                            style='cursor:pointer'>
-                            Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
+                        <a class="nav-link root-link" data-toggle="collapse" data-target="#collapse_parts" style='cursor:pointer'>
+                            Parts Finder
+                            <i class="fa fa-angle-down ml-2 mt-1"></i>
                         </a>
                         <ul class='dropdown-menu' style='position: unset !important'>
                             <div class="categories_menu">
@@ -422,20 +408,14 @@
                                     <h2 class="categori_toggle"> Categories </h2>
                                 </div>
                                 <div class="categories_menu_inner products">
-                                    @foreach ($eccategories as $product)
+                                    @foreach ($categories as $category)
                                         <div class="categories_menu">
-                                            <div class="categories_title" data-type="category"
-                                                data-category="{{ $product->name }}"
-                                                data-url="{{ route('front.groups') }}" data-status="0"
-                                                data-token="{{ csrf_token() }}">
-                                                <h2 class="categori_toggle"> {{ $product->name }}
-                                                    <i class="fa fa-angle-down arrow-down"
-                                                        style='margin-left: 5px'></i>
+                                            <div class="categories_title" data-type="category">
+                                                <h2 class="categori_toggle">
+                                                    <a href="{{ route('front.category', $category->name) }}">
+                                                        {{ $category->name }}
+                                                    </a>
                                                 </h2>
-                                            </div>
-                                            <div class="categories_menu_inner models"
-                                                style="max-height: 300px; overflow-y: auto;">
-                                                loading...
                                             </div>
                                         </div>
                                     @endforeach
@@ -477,14 +457,11 @@
         <div class='content'>
             <div style="width: 10%;"></div>
             <div class="site-info">
-                @if ($domain_name == 'mahindra')
-                    <span class="site_url">4myMahindra.com</span>
-                @elseif($domain_name == 'kioti')
-                    <span class="site_url">4myKioti.com</span>
-                @endif
-
-                <span class="phone_num"><span id="phone_num_desc">FOR ASSISTANCE CALL:</span> <a
-                        href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
+                <span class="site_url">3rdfunction.com</span>
+                <span class="phone_num">
+                    <span id="phone_num_desc">FOR ASSISTANCE CALL:</span>
+                    <a href="tel:+1(724) 691-0200">(724) 691-0200</a>
+                </span>
             </div>
             <div class='sign-form'>
                 @guest
@@ -757,8 +734,8 @@
                                         method="POST">
                                         {{ csrf_field() }}
                                         <div class="form-input">
-                                            <input type="email" name="email"
-                                                placeholder="{{ $langg->lang173 }}" required="">
+                                            <input type="email" name="email" placeholder="{{ $langg->lang173 }}"
+                                                required="">
                                             <i class="icofont-user-alt-5"></i>
                                         </div>
                                         <div class="form-input">
@@ -929,262 +906,6 @@
     </div>
     <!-- FORGOT MODAL ENDS -->
 
-
-    <!-- VENDOR LOGIN MODAL -->
-    <div class="modal fade" id="vendor-login" tabindex="-1" role="dialog" aria-labelledby="vendor-login-Title"
-        aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered modal-lg" style="transition: .5s;" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <nav class="comment-log-reg-tabmenu">
-                        <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-                            <!-- <a class="nav-item nav-link login active" id="nav-log-tab11" data-toggle="tab" href="#nav-log11" role="tab" aria-controls="nav-log" aria-selected="true">
-       {{ $langg->lang234 }}
-                            </a> -->
-                            <a class="nav-item nav-link login active" id="nav-reg-tab11" data-toggle="tab"
-                                href="#nav-reg11" role="tab" aria-controls="nav-reg" aria-selected="false"
-                                style="width: 100%">
-                                {{ $langg->lang235 }}
-                            </a>
-                        </div>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <!-- <div class="tab-pane fade" id="nav-log11" role="tabpanel" aria-labelledby="nav-log-tab">
-    <div class="login-area">
-    <div class="login-form signin-form">
-    @include('includes.admin.form-login')
-                        <form class="mloginform" action="{{ route('user.login.submit') }}" method="POST">
-    {{ csrf_field() }}
-                        <div class="form-input">
-                          <input type="email" name="email" placeholder="{{ $langg->lang173 }}" required="">
-    <i class="icofont-user-alt-5"></i>
-    </div>
-    <div class="form-input">
-    <input type="password" class="Password" name="password" placeholder="{{ $langg->lang174 }}" required="">
-    <i class="icofont-ui-password"></i>
-    </div>
-    <div class="form-forgot-pass">
-    <div class="left">
-    <input type="checkbox" name="remember"  id="mrp1" {{ old('remember') ? 'checked' : '' }}>
-    <label for="mrp1">{{ $langg->lang175 }}</label>
-    </div>
-    <div class="right">
-    <a href="javascript:;" id="show-forgot1">
-    {{ $langg->lang176 }}
-                        </a>
-                      </div>
-                    </div>
-                    <input type="hidden" name="modal"  value="1">
-                     <input type="hidden" name="vendor"  value="1">
-                    <input class="mauthdata" type="hidden"  value="{{ $langg->lang177 }}">
-    <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
-     @if (App\Models\Socialsetting::find(1)->f_check == 1 || App\Models\Socialsetting::find(1)->g_check == 1)
-<div class="social-area">
-                        <h3 class="title">{{ $langg->lang179 }}</h3>
-     <p class="text">{{ $langg->lang180 }}</p>
-     <ul class="social-links">
-     @if (App\Models\Socialsetting::find(1)->f_check == 1)
-<li>
-                          <a href="{{ route('social-provider', 'facebook') }}">
-     <i class="fab fa-facebook-f"></i>
-     </a>
-     </li>
-@endif
-                    @if (App\Models\Socialsetting::find(1)->g_check == 1)
-<li>
-                          <a href="{{ route('social-provider', 'google') }}">
-     <i class="fab fa-google-plus-g"></i>
-     </a>
-     </li>
-@endif
-                            </ul>
-                        </div>
-@endif
-                        </form>
-                      </div>
-                    </div>
-                </div> -->
-                        <div class="tab-pane fade show active" id="nav-reg11" role="tabpanel"
-                            aria-labelledby="nav-reg-tab">
-                            <div class="login-area signup-area">
-                                <div class="login-form signup-form">
-                                    @include('includes.admin.form-login')
-                                    <form class="mregisterform" action="{{ route('user-register-submit') }}"
-                                        method="POST">
-                                        {{ csrf_field() }}
-
-                                        <div class="row">
-
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="name"
-                                                        placeholder="{{ $langg->lang182 }}" required="">
-                                                    <i class="icofont-user-alt-5"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="email" class="User Name" name="email"
-                                                        placeholder="{{ $langg->lang183 }}" required="">
-                                                    <i class="icofont-email"></i>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="phone"
-                                                        placeholder="{{ $langg->lang184 }}" required="">
-                                                    <i class="icofont-phone"></i>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="address"
-                                                        placeholder="{{ $langg->lang185 }}" required="">
-                                                    <i class="icofont-location-pin"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="shop_name"
-                                                        placeholder="{{ $langg->lang238 }}" required="">
-                                                    <i class="icofont-cart-alt"></i>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="owner_name"
-                                                        placeholder="{{ $langg->lang239 }}" required="">
-                                                    <i class="icofont-cart"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="shop_number"
-                                                        placeholder="{{ $langg->lang240 }}" required="">
-                                                    <i class="icofont-shopping-cart"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="shop_address"
-                                                        placeholder="{{ $langg->lang241 }}" required="">
-                                                    <i class="icofont-opencart"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-
-                                                <div class="form-input">
-                                                    <select name="category_id" required="">
-                                                        <option value="" selected disabled>Category</option>
-                                                        @foreach ($categories as $data)
-                                                            <option value="{{ $data->id }}">{{ $data->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <i class="fas fa-sitemap"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="reg_number"
-                                                        placeholder="{{ $langg->lang242 }}" required="">
-                                                    <i class="icofont-ui-cart"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="form-input">
-                                                    <input type="text" class="User Name" name="shop_message"
-                                                        placeholder="{{ $langg->lang243 }}" required="">
-                                                    <i class="icofont-envelope"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="password" class="Password" name="password"
-                                                        placeholder="{{ $langg->lang186 }}" required="">
-                                                    <i class="icofont-ui-password"></i>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-input">
-                                                    <input type="password" class="Password"
-                                                        name="password_confirmation"
-                                                        placeholder="{{ $langg->lang187 }}" required="">
-                                                    <i class="icofont-ui-password"></i>
-                                                </div>
-                                            </div>
-
-                                            @if ($gs->is_capcha == 1)
-                                                <div class="col-lg-6">
-
-
-                                                    <ul class="captcha-area">
-                                                        <li>
-                                                            <p>
-                                                                <img class="codeimg1"
-                                                                    src="{{ asset('assets/images/capcha_code.png') }}"
-                                                                    alt=""> <i
-                                                                    class="fas fa-sync-alt pointer refresh_code "></i>
-                                                            </p>
-
-                                                        </li>
-                                                    </ul>
-
-
-                                                </div>
-
-                                                <div class="col-lg-6">
-
-                                                    <div class="form-input">
-                                                        <input type="text" class="Password" name="codes"
-                                                            placeholder="{{ $langg->lang51 }}" required="">
-                                                        <i class="icofont-refresh"></i>
-
-                                                    </div>
-
-
-                                                </div>
-                                            @endif
-
-                                            <input type="hidden" name="vendor" value="1">
-                                            <input class="mprocessdata" type="hidden"
-                                                value="{{ $langg->lang188 }}">
-                                            <button type="submit" class="submit-btn">{{ $langg->lang189 }}</button>
-
-                                        </div>
-
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- VENDOR LOGIN MODAL ENDS -->
-
     <!-- Product Quick View Modal -->
 
     <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1303,4 +1024,5 @@
     @yield('scripts')
 
 </body>
+
 </html>

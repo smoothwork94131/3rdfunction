@@ -11,7 +11,7 @@ use App\Models\Counter;
 use App\Models\Generalsetting;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\CategoryHome;
+use App\Models\Category;
 use App\Models\Subscriber;
 use App\Models\User;
 use App\Models\Location;
@@ -124,7 +124,6 @@ class FrontendController extends Controller
 
     public function index(Request $request)
     {
-
         $this->code_image();
         if (!empty($request->reff)) {
             $affilate_user = User::where('affilate_code', '=', $request->reff)->first();
@@ -141,347 +140,37 @@ class FrontendController extends Controller
         $sliders = DB::table('sliders')->get();
         $top_small_banners = DB::table('banners')->where('type', '=', 'TopSmall')->get();
         $ps = DB::table('pagesettings')->find(1);
-
-        $products = Product::where('status', '=', 1);
-
-        // if (!Auth::guard('web')->check()) {
-        //     $products = $products->where('is_verified', 0);
-        // } else {
-        //     if (!Auth::user()->is_verified) {
-        //         $products = $products->where('is_verified', 0);
-        //     }
-        // }
-
         $gs = Generalsetting::findOrFail(1);
 
-        $solo_mode = $gs->solo_mode;
+        $categories = Category::where('status', '=', 1)->orderBy('order', 'asc')->get();
+
+        $results = array();
+        foreach($categories as $category) {
+            $category_id = $category->id;
+            $category_name = $category->name;
+            $category_slug = $category->slug;
+
+            $products = Product::where('status', '=', 1)
+                ->where('category_id', $category_id)
+                ->orderBy('id', 'desc')
+                ->take(9)
+                ->get();
+
+            $product_item = array(
+                'category_name' => $category_name,
+                'category_slug' => $category_slug,
+                'products' => $products
+            );
+
+            $result[] = $product_item;
+        }
+
+        $products = $result;
         
-        // if ($solo_mode == 1) {
-        //     $sort = $request->sort;
-        //     $products = $products->select('*');
-        //     $products = $products->when($sort, function ($query, $sort) {
-        //         if ($sort == 'date_desc') {
-        //             return $query->orderBy('id', 'DESC');
-        //         } elseif ($sort == 'date_asc') {
-        //             return $query->orderBy('id', 'ASC');
-        //         } elseif ($sort == 'price_desc') {
-        //             return $query->orderBy('price', 'DESC');
-        //         } elseif ($sort == 'price_asc') {
-        //             return $query->orderBy('price', 'ASC');
-        //         }
-        //     })
-        //     ->when(empty($sort), function ($query, $sort) {
-        //         return $query->orderBy('id', 'DESC');
-        //     })
-        //     ->paginate(24);
-        // }
-        // else {
-            $home_categories = CategoryHome::where('status', '=', 1)->orderBy('order', 'asc')->get();
-
-            $results = array();
-            foreach($home_categories as $category) {
-                $category_id = $category->id;
-                $category_name = $category->name;
-
-                $products = Product::where('status', '=', 1)
-                    ->where('category_id', $category_id)
-                    ->orderBy('id', 'desc')
-                    ->take(9)
-                    ->get();
-
-                $product_item = array(
-                    'category_id' => $category_id,
-                    'category_name' => $category_name,
-                    'products' => $products
-                );
-
-                $result[] = $product_item;
-            }
-
-
-            $products = $result;
-        // }
-
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
         return view('front.index', compact('ps', 'sliders', 'products', 'top_small_banners', 'colorsetting_style1', 'colorsetting_style2'));
-    }
-
-    public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
-    {
-
-        $slug_list = array() ;
-        $result = array() ;
-
-        if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
-        }
-
-        if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
-        }
-
-        if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
-        }
-
-        if(isset($section) && $section != NULL) {
-            $section = $this->replaceDataToPath($section) ;
-            $slug_list["section"] = $section ;
-        }
-
-        if(isset($group) && $group != NULL) {
-            $slug_list["group"] = $group ;
-            $group = $this->replaceDataToPath($group) ;
-
-        }   
-       
-        if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
-        }
-        else{
-            if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
-                $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
-            } else if(count($slug_list) == 2) {
-                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
-            } else if(count($slug_list) == 3) {
-                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
-            } else if(count($slug_list) == 4) {
-                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
-            } else if(count($slug_list) == 5) {
-                $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-                $group_id = $group_info[0]->group_Id ;
-                $section = $this->replacPathToData($section) ;
-
-                if(Config::get('session.domain_name') == 'mahindra') {
-                    return redirect()->route('front.collection',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
-                }
-                else {
-                    return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
-                }
-            }
-            Session::put("slug_list", $slug_list) ;
-            Session::put("page_name", "partsbymodel") ;
-        }
-        
-        return view('front.partsbymodel', compact("result", "slug_list"));
-    }
-
-    public function replacPathToData($data) {
-        if(strstr($data, "/")) {
-            $data = str_replace("/", ":::", $data) ;
-        }
-        return $data ;
-    }
-
-    public function replaceDataToPath($path) {
-        if(strstr($path, ":::")) {
-            $path = str_replace(":::", "/", $path) ;
-        }
-        return $path ;
-    }
-    public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
-    {   
-        $slug_list = array() ;
-        $result = array() ;
-
-        if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
-
-        }
-
-        if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
-        }
-
-        if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
-        }
-
-        if(isset($section) && $section != NULL) {
-            $section = $this->replaceDataToPath($section) ;
-            $slug_list["section"] = $section ;
-        }
-
-        if(isset($group) && $group != NULL) {
-            $group = $this->replaceDataToPath($group) ;
-            $slug_list["group"] = $group ;
-        }   
-       
-        if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
-        }
-        else{
-            if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
-                $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
-            } else if(count($slug_list) == 2) {
-                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
-            } else if(count($slug_list) == 3) {
-                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
-            } else if(count($slug_list) == 4) {
-                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
-            } else if(count($slug_list) == 5) {
-                $group_info = DB::table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
-                $result = $group_info ;
-            }
-
-            Session::put("slug_list", $slug_list) ;
-            Session::put("page_name", "schematics") ;
-        }
-        return view('front.schematics', compact("result", "slug_list"));
-    }
-
-    public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
-    {
-        $slug_list = array() ;
-        $result = array() ;
-
-        if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
-
-        }
-
-        if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
-        }
-
-        if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;            
-        }
-        if(isset($prod) && $model != NULL) {
-            $prod = $this->replaceDataToPath($prod) ;
-            $slug_list["prod"] = $prod ;
-        }
-
-        if(count($slug_list) == 0) {
-            $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
-            foreach($result_ as $key =>$item) {
-                $ret = DB::table("categories")->select("*")->where("parent", $item->id)->get()->toArray();
-                $flag = false ;
-                foreach($ret as $sub_item) {
-
-                    $table_name = strtolower($sub_item->name);
-                    $sub_ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
-                    
-                    if(count($sub_ret) > 0) {
-                        $flag = true ;
-                        break ;
-                    }
-                }
-               
-                if($flag) {
-                    $result[$key] = $item ;
-                }
-            }
-        }
-        else{
-            if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
-                $category_id = $category_info[0]->id ;
-                
-                $result_ = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
-                $result = array() ;
-                foreach($result_ as $key =>$item) {
-                    $table_name = strtolower($item->name);
-                    $ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
-                    if(count($ret) > 0) {
-                        $result[$key] = $item ;
-                    }
-                }
-
-            } else if(count($slug_list) == 2) {
-                $table_name = strtolower($series);
-                $result = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
-            } else if(count($slug_list) == 3) {
-                $page = "commonparts" ;
-                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
-            } else if(count($slug_list) == 4) {
-                $this->code_image();
-                
-                $db = strtolower($series);
-                $productt = DB::table($db)->where('name', '=', $prod)->first();
-
-                $group_id = $productt->category_id;
-                $group_model = $productt->subcategory_id;
-                $group_record = DB::table($db . "_categories")->where('model', $group_model)->where('group_Id', $group_id)->first(); 
-                
-                if (Session::has('currency')) {
-                    $curr = Currency::find(Session::get('currency'));
-                } else {
-                    $curr = Currency::where('is_default', '=', 1)->first();
-                }
-
-                $vendors = Product::where('status', '=', 1)->take(8)->get();
-
-                $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
-                $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
-                
-                $page = "commonparts" ;
-
-                $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
-                $tbl_info =DB::select($sql);
-
-                $sql = "" ;
-                $flag = false ;
-                $arr_tbl = array();
-                
-                foreach($tbl_info as $item) {
-                    $arr_tbl[] = strtolower($item->name) ;
-                }
-
-                for($k = 0 ; $k < count($arr_tbl) ; $k++) {
-                    if($flag) {
-                        $sql.=" union all " ;
-                    } 
-                    $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
-                    $flag = true ;
-                }
-
-                $fits =DB::select($sql) ;
-                $also_fits = array();
-                foreach($fits as $item) {
-                    if(array_key_exists($item->table, $also_fits)) {
-                        $also_item = $also_fits[$item->table] ;
-                        array_push($also_item, $item->subcategory_id) ;
-                        $also_fits[$item->table] = $also_item ;
-                    } else {
-                        $also_fits[$item->table] = array($item->subcategory_id) ;
-                    }
-                }
-
-                return view('front.product', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
-            }
-
-        }
-        return view('front.commonparts', compact("result", "slug_list"));
-    }
-
-    public function commonparts(Request $request, $category, $series, $model)
-    {
-
-        $db = strtolower($series);
-        $model = $this->replaceDataToPath($model) ;
-
-        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1) ;
-        $prods = $prods->get();
-       
-        $slug = $model;
-
-        return view('load.suggest', compact('prods', 'model', 'series','category'));
     }
 
     public function auth_guests()
@@ -680,40 +369,7 @@ class FrontendController extends Controller
         $subscribe->save();
         return response()->json('You Have Subscribed Successfully.');
     }
-
-    public function groups(Request $request)
-    {
-        $series = $this->replaceDataToPath($request->series) ;
-        $model = $this->replaceDataToPath($request->model) ;
-        $type = $request->type ;
-        $section = $this->replaceDataToPath($request->section) ;
-        $category = $this->replaceDataToPath($request->category) ;
-
-        $table_name = strtolower($series) . "_categories";
-
-        if ($type == 'model') {
-            if ($request->model_type == "common") {
-                $table_name = strtolower($series);
-                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
-            } else {
-                $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
-            }  
-        } else if ($type == 'section') {
-            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
-
-        } else if ($type == 'group') {
-            $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
-
-        } else if($type == "category" ) {
-            $series_info = DB::table("categories")->where("name", $category)->get() ;
-            $paret_id = $series_info[0]->id ;
-            $categories = DB::table("categories")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
-        }
-
-        return response()->json(array("categories"=>$categories));
-
-    }
-
+    
     public function maintenance()
     {
         $gs = Generalsetting::find(1);

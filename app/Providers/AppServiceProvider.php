@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\Category;
-use App\Models\CategoryHome;
 use App\Models\Product;
 use Carbon\Carbon;
 use Session;
@@ -51,9 +50,7 @@ class AppServiceProvider extends ServiceProvider
             $gs = DB::table('generalsettings')->find(1);
             $settings->with('gs', $gs);
             $settings->with('seo', DB::table('seotools')->find(1));
-            $settings->with('home_categories', CategoryHome::where('status', '=', 1)->orderBy('id', 'asc')->get());
             $settings->with('categories', Category::where('status', '=', 1)->orderBy('id', 'asc')->get());
-            $settings->with('eccategories', DB::table("categories")->where("parent","0")->where("status", "1")->orderBy('name', 'asc')->get());
             
             if (Session::has('language')) {
                 $data = DB::table('languages')->find(Session::get('language'));

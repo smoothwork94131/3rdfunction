@@ -274,24 +274,6 @@
                                     </div>
                                 </div>
 
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-4 d-flex justify-content-between">
-                                        <label class="control-label">{{ __('Strain') }} *</label>
-                                        <label class="switch">
-                                            <input type="checkbox" name="section[]" value="strain" {{ $data->sectionCheck('strain') ? 'checked' : '' }}>
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-lg-2"></div>
-                                    <div class="col-lg-4 d-flex justify-content-between">
-                                        <label class="control-label">{{ __('Verification') }} *</label>
-                                        <label class="switch">
-                                            <input type="checkbox" name="section[]" value="verification_plan" {{ $data->sectionCheck('verification_plan') ? 'checked' : '' }}>
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="left-area">

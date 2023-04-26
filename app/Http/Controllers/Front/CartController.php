@@ -70,14 +70,14 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories')
+            $series_info = DB::table('categories_home')
                 ->where('name', $series)
                 ->where('status', 1)
                 ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories')
+            $category_info = DB::table('categories_home')
                     ->where('id', $series_parent)
                     ->first();
                 
@@ -192,14 +192,14 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories')
+            $series_info = DB::table('categories_home')
                 ->where('name', $series)
                 ->where('status', 1)
                 ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories')
+            $category_info = DB::table('categories_home')
                     ->where('id', $series_parent)
                     ->first();
                 
@@ -364,14 +364,14 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories')
+            $series_info = DB::table('categories_home')
                 ->where('name', $series)
                 ->where('status', 1)
                 ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories')
+            $category_info = DB::table('categories_home')
                     ->where('id', $series_parent)
                     ->first();
                 
@@ -506,14 +506,14 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories')
+            $series_info = DB::table('categories_home')
                 ->where('name', $series)
                 ->where('status', 1)
                 ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories')
+            $category_info = DB::table('categories_home')
                     ->where('id', $series_parent)
                     ->first();
                 

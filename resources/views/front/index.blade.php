@@ -26,50 +26,9 @@
         <div class="container custom-container">
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">
-                    @if($domain_name == 'mahindra')
                     <div>
-                        Over 500,000 Mahindra Parts <br>and growing...
+                        Over 500,000 3rdfunction products <br>and growing...
                     </div>
-                    @elseif($domain_name == 'kioti')
-                    <div>
-                        Over 500,000 Kioti Parts <br>and growing...
-                    </div>
-                    @else
-                    
-                    @endif
-                    
-                </div>
-                <div class="col-6 remove-padding pr-1">
-                    <a href="{{route('front.partsbymodel', [])}}"><div class="s-0-block s-block d-flex m-blue">
-                        <div>
-                            FIND PARTS
-                        </div>
-                    </div></a>
-                </div>
-                <div class="col-6 remove-padding" >
-                    <a href="https://3rdfunction.com/collections">
-                        <div class="s-0-block s-block d-flex m-red">
-                            <div>
-                                3RD FUNCTION VALVES
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 remove-padding  pr-1">
-                    <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex m-green">
-                        <div>
-                             FIND SCHEMATICS
-                        </div>
-                    </div></a>
-                </div>
-                <div class="col-6 remove-padding">
-                <a href="{{route('front.commonparts')}}">
-                    <div class="s-0-block s-block d-flex m-brown">
-                        <div>
-                             COMMON PARTS
-                        </div>
-                    </div>
-                    </a>
                 </div>
             </div>
             <div class="row">
@@ -113,7 +72,7 @@
                 <div class="col-lg-12 remove-padding">
                     <div class="trending-item-slider">
                         @foreach($product['products'] as $prod)
-                        @include('includes.product.slider-product', ['prod' => $prod])
+                        @include('includes.product.slider-product', ['category_slug' => $product["category_slug"], 'prod' => $prod])
                         @endforeach
                     </div>
                 </div>

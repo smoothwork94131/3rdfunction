@@ -77,10 +77,8 @@
 
                         <div class="checkout-area">
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-step1" role="tabpanel"
-                                    aria-labelledby="pills-step1-tab">
+                                <div class="tab-pane fade show active" id="pills-step1" role="tabpanel" aria-labelledby="pills-step1-tab">
                                     <div class="content-box">
-
                                         <div class="content">
                                             <div class="personal-info">
                                                 <h5 class="title">
@@ -114,9 +112,7 @@
                                                                 class="form-control" placeholder="{{ $langg->lang750 }}">
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <input type="password" name="personal_confirm"
-                                                                id="personal-pass-confirm" class="form-control"
-                                                                placeholder="{{ $langg->lang751 }}">
+                                                            <input type="password" name="personal_confirm" id="personal-pass-confirm" class="form-control" placeholder="{{ $langg->lang751 }}">
                                                         </div>
                                                     </div>
                                                 @endif
@@ -126,9 +122,7 @@
                                                     {{ $langg->lang147 }}
                                                 </h5>
                                                 <div class="row">
-
                                                     <input type="hidden" name="shipping" value="shipto">
-
                                                     <div class="col-lg-6 d-none" id="shipshow">
                                                         <select class="form-control nice" name="pickup_location">
                                                             @foreach ($pickups as $pickup)
@@ -180,7 +174,6 @@
                                                             value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->zip : '' }}"
                                                             {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <div class="row {{ $digital == 1 || !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
@@ -261,15 +254,25 @@
                                                     <div class="order-item">
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
+                                                                @if($product["db"] == "products")
+                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
-
+                                                                @else
+                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
+                                                                    height="80" width="80" class="p-1">
+                                                                @endif
                                                             </div>
                                                         </div>
                                                         <div class="product-content">
-                                                            <p class="name"><a
-                                                                    href="{{ route('front.homeproduct', $product['item']->slug) }}"
+                                                            <p class="name">
+                                                                @if($product["db"] == "products")
+                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
+                                                                @else
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                    {{ $product['item']->name }}
+                                                                </a>
+                                                                @endif
                                                             </p>
                                                             <div class="unit-price">
                                                                 <h5 class="label">{{ $langg->lang754 }} : </h5>
@@ -326,15 +329,25 @@
                                                     <div class="order-item">
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
+                                                                @if($product["db"] == "products")
+                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
-
+                                                                @else
+                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
+                                                                    height="80" width="80" class="p-1">
+                                                                @endif
                                                             </div>
                                                         </div>
                                                         <div class="product-content">
-                                                            <p class="name"><a
-                                                                    href="{{ route('front.homeproduct', $product['item']->slug) }}"
+                                                            <p class="name">
+                                                                @if($product["db"] == "products")
+                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
+                                                                @else
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                    {{ $product['item']->name }}
+                                                                </a>
+                                                                @endif
                                                             </p>
                                                             <div class="unit-price">
                                                                 <h5 class="label">{{ $langg->lang754 }} : </h5>
@@ -766,7 +779,6 @@
                             </div>
                         </div>
 
-
                         <input type="hidden" id="shipping-cost" name="shipping_cost" value="0">
                         <input type="hidden" id="packing-cost" name="packing_cost" value="0">
                         <input type="hidden" name="dp" value="{{ $digital }}">
@@ -814,7 +826,8 @@
                                             {{ $langg->lang128 }}
                                         </p>
                                         <P>
-                                            <b class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
+                                            <b
+                                                class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
                                         </P>
                                     </li>
                                     @if ($gs->tax != 0)
@@ -831,14 +844,17 @@
                                     @if (Session::has('coupon'))
                                         <li class="discount-bar">
                                             <p>
-                                                {{ $langg->lang145 }} 
-                                                <span class="dpercent">{{ Session::get('coupon_percentage') == 0 ? '' : '(' . Session::get('coupon_percentage') . ')' }}</span>
+                                                {{ $langg->lang145 }}
+                                                <span
+                                                    class="dpercent">{{ Session::get('coupon_percentage') == 0 ? '' : '(' . Session::get('coupon_percentage') . ')' }}</span>
                                             </p>
                                             <P>
                                                 @if ($gs->currency_format == 0)
-                                                    <b id="discount">{{ $curr->sign }}{{ Session::get('coupon') }}</b>
+                                                    <b
+                                                        id="discount">{{ $curr->sign }}{{ Session::get('coupon') }}</b>
                                                 @else
-                                                    <b id="discount">{{ Session::get('coupon') }}{{ $curr->sign }}</b>
+                                                    <b
+                                                        id="discount">{{ Session::get('coupon') }}{{ $curr->sign }}</b>
                                                 @endif
                                             </P>
                                         </li>
@@ -859,17 +875,18 @@
                                         {{ $langg->lang131 }}
                                     </p>
                                     <p>
-                                    @if (Session::has('coupon_total'))
-                                        @if ($gs->currency_format == 0)
-                                            <span id="total-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
+                                        @if (Session::has('coupon_total'))
+                                            @if ($gs->currency_format == 0)
+                                                <span id="total-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
+                                            @else
+                                                <span id="total-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
+                                            @endif
+                                        @elseif(Session::has('coupon_total1'))
+                                            <span id="total-cost"> {{ Session::get('coupon_total1') }}</span>
                                         @else
-                                            <span id="total-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
+                                            <span
+                                                id="total-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
                                         @endif
-                                    @elseif(Session::has('coupon_total1'))
-                                        <span id="total-cost"> {{ Session::get('coupon_total1') }}</span>
-                                    @else
-                                        <span id="total-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
-                                    @endif
                                     </p>
                                 </div>
 
@@ -879,7 +896,8 @@
                                         {{ $langg->lang132 }}
                                     </div>
                                     <form id="check-coupon-form" class="coupon">
-                                        <input type="text" placeholder="{{ $langg->lang133 }}" id="code" required="" autocomplete="off">
+                                        <input type="text" placeholder="{{ $langg->lang133 }}" id="code"
+                                            required="" autocomplete="off">
                                         <button type="submit">{{ $langg->lang134 }}</button>
                                     </form>
                                 </div>
@@ -1313,7 +1331,7 @@
         });
     </script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1jKOFLhfQoZD3xJISSPnSW9-4SyYPpjY&callback=initAutocomplete&libraries=places&v=weekly"
+        src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly"
         defer></script>
 
     <script type="text/javascript">
@@ -1341,20 +1359,15 @@
 
         function fillInAddress() {
             const place = autocomplete.getPlace();
-
             var location = JSON.parse(JSON.stringify(place));
-
-            console.log(location);
 
             var address = "";
             var country = "";
             var city = "";
             var postalCode = "";
 
-
             for (const component of place.address_components) {
                 const addressType = component.types[0];
-
                 if (componentForm[addressType]) {
                     const val = component[componentForm[addressType]];
                     if (addressType == 'street_number') address += val;
@@ -1368,11 +1381,9 @@
                     if (addressType == 'locality') {
                         city += val;
                     }
-
                     if (addressType == 'country') {
                         country += val;
                     }
-
                     if (addressType == 'postal_code') {
                         postalCode += val;
                     }

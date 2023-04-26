@@ -53,31 +53,13 @@ class RegisterController extends Controller
         $user = new User;
         $input = $request->all();
 
-        $input['address'] = $request->street_number . ' ' . $request->street_address;
+        $street_number = $request->street_number ? $request->street_number : '';
+        $street_address = $request->street_address?$request->street_address:'';
+        $input['address'] = $street_number . ' ' . $street_address;
         $input['password'] = bcrypt($request['password']);
         $token = md5(time() . $request->name . $request->email);
         $input['verification_link'] = $token;
         $input['affilate_code'] = md5($request->name . $request->email);
-
-        if (!empty($request->vendor)) {
-            //--- Validation Section
-            $rules = [
-                'shop_name' => 'required',
-                'shop_number' => 'required|max:20',
-            ];
-
-            $customs = [
-                'shop_name.required' => 'Company Name is requried.',
-                'shop_number.required' => 'Shop Number is required',
-                'shop_number.max' => 'Shop Number Must Be Less Then 20 Digit.'
-            ];
-
-            $validator = Validator::make(  $request->all(), $rules, $customs);
-            if ($validator->fails()) {
-                return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
-            }
-            $input['is_vendor'] = 1;
-        }
 
         if(!empty($request->terms_condition)) {
             $input['terms_condition'] = $request->terms_condition;

@@ -630,44 +630,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="gallery-images">
-                    <div class="strain-selected-image">
-                        <div class="row">
-
-
-                        </div>
-                    </div>
-                    <div class="selected-image">
-                        <div class="row">
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="selectStrainImage" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="selectImage">
-    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"> Strain Image Galler </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="top-area">
-                    <div class="col-sm-12 text-center">( <small> You can select one for featured image</small> )</div>
-                </div>
-                <br>
-                <div class="strain-gallery-images">
-                    <div class="row">
-
-                    <div>
-                </div>
+                
             </div>
         </div>
     </div>

@@ -191,48 +191,6 @@ $(function ($) {
     });
     // LOGIN FORM ENDS
 
-    // MODAL LOGIN FORM
-    $(".mloginform").on("submit", function (e) {
-      var $this = $(this).parent();
-      e.preventDefault();
-      $this.find("button.submit-btn").prop("disabled", true);
-      $this.find(".alert-info").show();
-      var authdata = $this.find(".mauthdata").val();
-      $(".signin-form .alert-info p").html(authdata);
-      $.ajax({
-        method: "POST",
-        url: $(this).prop("action"),
-        data: new FormData(this),
-        dataType: "JSON",
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-          if (data.errors) {
-            $this.find(".alert-success").hide();
-            $this.find(".alert-info").hide();
-            $this.find(".alert-danger").show();
-            $this.find(".alert-danger ul").html("");
-            for (var error in data.errors) {
-              $(".signin-form .alert-danger p").html(data.errors[error]);
-            }
-          } else {
-            $this.find(".alert-info").hide();
-            $this.find(".alert-danger").hide();
-            $this.find(".alert-success").show();
-            $this.find(".alert-success p").html("Success !");
-            if (data == 1) {
-              location.reload();
-            } else {
-              window.location = data;
-            }
-          }
-          $this.find("button.submit-btn").prop("disabled", false);
-        },
-      });
-    });
-    // MODAL LOGIN FORM ENDS
-
     // REGISTER FORM
     $("#registerform").on("submit", function (e) {
       var $this = $(this).parent();
@@ -275,50 +233,6 @@ $(function ($) {
     });
     // REGISTER FORM ENDS
 
-    // MODAL REGISTER FORM
-    $(".mregisterform").on("submit", function (e) {
-      e.preventDefault();
-      var $this = $(this).parent();
-      $this.find("button.submit-btn").prop("disabled", true);
-      $this.find(".alert-info").show();
-      var processdata = $this.find(".mprocessdata").val();
-      $this.find(".alert-info p").html(processdata);
-      $.ajax({
-        method: "POST",
-        url: $(this).prop("action"),
-        data: new FormData(this),
-        dataType: "JSON",
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-          if (data == 1) {
-            location.reload();
-          } else {
-            if (data.errors) {
-              $this.find(".alert-success").hide();
-              $this.find(".alert-info").hide();
-              $this.find(".alert-danger").show();
-              $this.find(".alert-danger ul").html("");
-              for (var error in data.errors) {
-                $this.find(".alert-danger p").html(data.errors[error]);
-              }
-              $this.find("button.submit-btn").prop("disabled", false);
-            } else {
-              $this.find(".alert-info").hide();
-              $this.find(".alert-danger").hide();
-              $this.find(".alert-success").show();
-              $this.find(".alert-success p").html(data);
-              $this.remove();
-            }
-          }
-
-          $(".refresh_code").click();
-        },
-      });
-    });
-    // MODAL REGISTER FORM ENDS
-
     // FORGOT FORM
 
     $("#forgotform").on("submit", function (e) {
@@ -327,41 +241,6 @@ $(function ($) {
       $this.find("button.submit-btn").prop("disabled", true);
       $this.find(".alert-info").show();
       $this.find(".alert-info p").html($(".authdata").val());
-      $.ajax({
-        method: "POST",
-        url: $(this).prop("action"),
-        data: new FormData(this),
-        dataType: "JSON",
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-          if (data.errors) {
-            $this.find(".alert-success").hide();
-            $this.find(".alert-info").hide();
-            $this.find(".alert-danger").show();
-            $this.find(".alert-danger ul").html("");
-            for (var error in data.errors) {
-              $this.find(".alert-danger p").html(data.errors[error]);
-            }
-          } else {
-            $this.find(".alert-info").hide();
-            $this.find(".alert-danger").hide();
-            $this.find(".alert-success").show();
-            $this.find(".alert-success p").html(data);
-            $this.find("input[type=email]").val("");
-          }
-          $this.find("button.submit-btn").prop("disabled", false);
-        },
-      });
-    });
-
-    $("#mforgotform").on("submit", function (e) {
-      e.preventDefault();
-      var $this = $(this).parent();
-      $this.find("button.submit-btn").prop("disabled", true);
-      $this.find(".alert-info").show();
-      $this.find(".alert-info p").html($(".fauthdata").val());
       $.ajax({
         method: "POST",
         url: $(this).prop("action"),
@@ -1615,7 +1494,7 @@ function totalSearch(event, type) {
                   "<img src='/assets/images/noimage.png' style='width: 100%'/>";
               } else {
                 html +=
-                  "<img src='/assets/images/products/" +
+                  "<img src='/assets/images/products_home/" +
                   item["photo"] +
                   "' style='width: 100% ;height: 114px'/>";
               }

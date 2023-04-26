@@ -34,7 +34,7 @@
                     <div class="map_other_info">
                         <div class="address-container">
                             <div class="address-title">
-                                Contract Info
+                                Contact Info
                             </div>
                             <div class="address-info">
                                 <div class="address-mark">{{ $locations->name }}</div>

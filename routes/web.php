@@ -50,12 +50,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/password/update', 'Admin\DashboardController@changepass')->name('admin.password.update');
     //------------ ADMIN DASHBOARD & PROFILE SECTION ENDS ------------
 
-    //------------ ADMIN STRAIN SEARCH ---------------
-    Route::get('/strain/search', 'Admin\StrainController@searchStrain')->name('admin-strain-search');
-    Route::get('/straingallery/{id}', 'Admin\StrainController@getStrainGalleries')->name('admin-strain-gelleries');
-
-    //------------ END ADMIN STRAIN SEARCH -----------
-
     // ADMIN LOCATION POLICY LOAD
     Route::get('/loadpolicy/{location_id}/', 'Admin\ProductController@policyload')->name('admin-policy-load'); //JSON REQUEST
     // END
@@ -150,45 +144,6 @@ Route::prefix('admin')->group(function () {
     });
 
     //------------ ADMIN AFFILIATE PRODUCT SECTION ENDS ------------
-
-
-    //------------ ADMIN STRAIN SECTION ------------
-
-    Route::group(['middleware' => 'permissions:strain'], function () {
-
-        Route::get('/strains/create', 'Admin\StrainController@createImport')->name('admin-strain-create');
-        Route::get('/strains/edit/{id}', 'Admin\StrainController@edit')->name('admin-strain-edit');
-        Route::get('/strains/gallery/{id}', 'Admin\StrainController@gallery')->name('admin-strain-gallery');
-
-        Route::get('/strains/datatables', 'Admin\StrainController@datatables')->name('admin-strain-datatables'); //JSON REQUEST
-        Route::get('/strains/index', 'Admin\StrainController@index')->name('admin-strain-index');
-
-        Route::post('/strains/store', 'Admin\StrainController@store')->name('admin-strain-store');
-        Route::post('/strains/update/{id}', 'Admin\StrainController@update')->name('admin-strain-update');
-        Route::post('/strains/upload', 'Admin\StrainController@gallery_upload')->name('admin-strain-gallery-upload');
-        Route::get('/strains/gallery/remove/{id}', 'Admin\StrainController@gallery_remove')->name('admin-strain-gallery-remove');
-        Route::post('/strains/gallery/logo', 'Admin\StrainController@gallery_logo')->name('admin-strain-gallery-logo');
-
-        Route::post('/strains/upload/excel', 'Admin\StrainController@excel_upload')->name('admin-strain-excel-upload');
-        // DELETE SECTION
-        Route::get('/strain/delete/{id}', 'Admin\StrainController@destroy')->name('admin-strain-delete');
-        // DELETE SECTION ENDS
-
-        // PENDING STRAINS
-
-        Route::get('/pendingstrains/index', 'Admin\PendingStrainController@index')->name('admin-pendingstrain-index');
-        Route::get('/pendingstrains/datatables', 'Admin\PendingStrainController@datatables')->name('admin-pendingstrain-datatables');
-        Route::get('/pendingstrains/delete/{id}', 'Admin\PendingStrainController@destroy')->name('admin-pendingstrain-delete');
-        Route::get('/pendingstrains/accept/{id}', 'Admin\PendingStrainController@accept')->name('admin-pendingstrain-accept');
-        Route::post('/pendingstrains/store', 'Admin\PendingStrainController@store')->name('admin-pendingstrain-store');
-
-        Route::get('/pendingstrains/customer/delete/{id}', 'Admin\PendingStrainController@cus_destroy')->name('admin-pendingstrain-cusdelete');
-        Route::get('/pendingstrains/customer/accept/{id}', 'Admin\PendingStrainController@cus_accept')->name('admin-pendingstrain-cusaccept');
-        Route::post('/pendingstrains/customer/store', 'Admin\PendingStrainController@cus_store')->name('admin-pendingstrain-cusstore');
-        Route::post('/pendingstrains/gallery/remove', 'Admin\PendingStrainController@gallery_remove')->name('admin-pendingstrain-gallery-remove');
-    });
-
-    //------------ ADMIN STRAIN SECTION ENDS ------------
 
 
     //------------ ADMIN USER SECTION ------------
@@ -1121,17 +1076,10 @@ Route::group(['middleware' => 'maintenance'], function () {
     // CATEGORY SECTION
 
     Route::get('/', 'Front\FrontendController@index')->name('front.index');
-    Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
-    Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
-    Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
-    Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@commonparts');
-
-
-    Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
-    Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@collection')->name('front.collection');
     
-    Route::get('/collections/{query?}', 'Front\CatalogController@old_parts')->name('front.old_parts');
-    Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_collection')->name('front.old_collection');
+    // CATEGORY SELECT DETAIL PAGE
+    Route::get('/collections/{category?}', 'Front\CatalogController@category')->name('front.category');
+    Route::get('/collections/{category_slug?}/products/{product_slug?}', 'Front\CatalogController@product')->name('front.product');
     /*Category list page */
 
     // PRODCT SECTION ENDS
@@ -1139,12 +1087,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
     Route::post('/product/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
     Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
-
-    // CATEGORY SELECT DETAIL PAGE
-    Route::get('/product/{slug}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
-    Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@product')->name('front.product');
-    Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
-    
 
     // REPORT SECTION   
     Route::post('/product/report', 'Front\CatalogController@report')->name('product.report');
