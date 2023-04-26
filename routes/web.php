@@ -1078,6 +1078,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/', 'Front\FrontendController@index')->name('front.index');
     
     // CATEGORY SELECT DETAIL PAGE
+    Route::get('/collections', 'Front\CatalogController@collection')->name('front.collection');
     Route::get('/collections/{category?}', 'Front\CatalogController@category')->name('front.category');
     Route::get('/collections/{category_slug?}/products/{product_slug?}', 'Front\CatalogController@product')->name('front.product');
     /*Category list page */

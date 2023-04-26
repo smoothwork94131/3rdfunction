@@ -26,14 +26,20 @@ use App\Classes\GeniusMailer;
 
 class CatalogController extends Controller
 {
+    public function collection(Request $request) {
+
+    }
+    
     public function category(Request $request, $category_slug = null)
     {   
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+        
         $category = Category::where('slug', $category_slug)->first();
         if($category) {
             $category_id = $category->id;
-
             $products = Product::where('category_id', $category_id)->get();
-            return view('front.category', compact('products'));
+            return view('front.category', compact('products', 'category', 'colorsetting_style1', 'colorsetting_style2'));
         }
     }
 
