@@ -105,12 +105,12 @@ class CheckoutController extends Controller
                 $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
             }
 
-            foreach ($products as $prod) {
-                if ($prod['item']->type == 'Physical') {
-                    $dp = 0;
-                    break;
-                }
-            }
+            // foreach ($products as $prod) {
+            //     if ($prod['item']->type == 'Physical') {
+            //         $dp = 0;
+            //         break;
+            //     }
+            // }
 
             if ($dp == 1) {
                 $ship = 0;

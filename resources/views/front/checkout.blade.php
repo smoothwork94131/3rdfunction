@@ -248,7 +248,6 @@
                                     aria-labelledby="pills-step2-tab">
                                     <div class="content-box">
                                         <div class="content">
-
                                             <div class="order-area">
                                                 @foreach ($products as $product)
                                                     <div class="order-item">

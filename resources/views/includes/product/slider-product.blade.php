@@ -7,15 +7,6 @@
             </h2>
         </div>
 
-        <p class="prod-tag">
-            @if ($prod->features)
-                @foreach ($prod->features as $key => $data1)
-                    <span class="sale"
-                        style="background-color: {{ $colorsetting_style2 && $colorsetting_style2->tag_bg_color ? $colorsetting_style2->tag_bg_color : '#84a45a' }}; color: {{ $colorsetting_style2 && $colorsetting_style2->tag_color ? $colorsetting_style2->tag_color : '#000000' }}">{{ $prod->features[$key] }}</span>
-                @endforeach
-            @endif
-        </p>
-
         <p class="prod-details"
             style="color: {{ $colorsetting_style2 && $colorsetting_style2->detail_color ? $colorsetting_style2->detail_color : '#333333' }}">
             @php

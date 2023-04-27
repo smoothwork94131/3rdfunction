@@ -48,25 +48,14 @@
                                             <tr
                                                 class="cremove{{ ($product['db'] ?? 'products') . $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
                                                 <td class="product-img">
-                                                    @if($product['db'] == 'products')
                                                     <div class="item">
                                                         <img src="{{ $product['item']->photo ? asset('assets/images/products/' . $product['item']->photo) : asset('assets/images/noimage.png') }}" alt="">
                                                         <p class="name">
-                                                            <a href="{{ route('front.product', $product['item']->slug) }}">
+                                                            <a href="{{ route('front.product', ['category_slug' => $product["category_slug"], 'product_slug' => $product['item']->slug]) }}">
                                                                 {{ mb_strlen($product['item']->name, 'utf-8') > 35 ? mb_substr($product['item']->name, 0, 35, 'utf-8') . '...' : $product['item']->name }}
                                                             </a>
                                                         </p>
                                                     </div>
-                                                    @else
-                                                    <div class="item">
-                                                        <img src="{{ $product['item']->photo ? asset('assets/images/products_home/' . $product['item']->photo) : asset('assets/images/noimage.png') }}" alt="">
-                                                        <p class="name">
-                                                            <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
-                                                                {{ mb_strlen($product['item']->name, 'utf-8') > 35 ? mb_substr($product['item']->name, 0, 35, 'utf-8') . '...' : $product['item']->name }}
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                    @endif
                                                 </td>
 
                                                 <td class="unit-price quantity">
