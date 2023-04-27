@@ -1989,7 +1989,6 @@ Begin Footer Custom Style
     cursor: pointer;
     text-align: left;
     width: 400px;
-    margin-right: 50px;
     border-radius: 5px;
     display: none;
   
@@ -2008,6 +2007,8 @@ Begin Footer Custom Style
 .search-table .dropdown {
     border-top: 1px solid #333;
     display: none;
+    height: 300px;
+    overflow-y: auto;
 }
 .search-table .dropdown .item{
     padding: 5px 10px 5px 10px;
@@ -2019,9 +2020,9 @@ Begin Footer Custom Style
 }
 
 .desktop-search-field .search-field .search-input {
-    width: 400px;
-    border-top-left-radius: 400px;
-    border-bottom-left-radius: 400px;
+    width: 360px;
+    border-top-left-radius: 360px;
+    border-bottom-left-radius: 360px;
     height: 40px;
 }
 

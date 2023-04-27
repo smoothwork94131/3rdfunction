@@ -147,14 +147,16 @@ class CatalogController extends Controller
 
     public function iquick($db, $id)
     {
-        $product = DB::table($db)->find($id);
+        $category = Category::where('slug', $db)->first();
+        $product = Product::find($id);
+
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        return view('load.quick', compact('product', 'curr', 'db'));
+        return view('load.quick', compact('product', 'curr', 'category'));
     }
 
     // -------------------------------- PRODUCT DETAILS SECTION ENDS----------------------------------------

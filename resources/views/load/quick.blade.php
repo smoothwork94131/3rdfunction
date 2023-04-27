@@ -47,7 +47,7 @@
                     </ul>
                 </div>
 
-                <div><small>Model #: <?php echo $product->category_id; ?></small></div>
+                <div><small>Manufacturer #: <?php echo $category->name; ?></small></div>
                 <div><small>Part #: <?php echo $product->sku; ?></small></div>
 
                 <div class="product-price">
@@ -130,7 +130,7 @@
                 @endif
 
                 <input type="hidden" id="mproduct_id" value="{{ $product->id }}">
-                <input type="hidden" id="mdb" value="{{ $db ?? 'products' }}">
+                <input type="hidden" id="mdb" value="{{ $category->slug }}">
                 <input type="hidden" id="mcurr_pos" value="{{ $gs->currency_format }}">
                 <input type="hidden" id="mcurr_sign" value="{{ $curr->sign }}">
                 <div class="info-meta-3">

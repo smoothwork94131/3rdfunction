@@ -1455,7 +1455,7 @@ function totalSearch(event, type) {
       url: "/search",
       data: "search_word=" + search_word + "&key=" + key,
       headers: {
-        "X-CSRF-TOKEN": $('meta[name="csrf- token"]').attr("content"),
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
       },
       dataType: "json",
       beforeSend: function () {
@@ -1469,40 +1469,26 @@ function totalSearch(event, type) {
           var scr = $("body").width();
           for (var k = 0; k < data.length; k++) {
             var item = data[k];
-            var section = replaceDataToPath(item.section);
-            var group_name = replaceDataToPath(item.group_name);
-            var name = replaceDataToPath(item.name);
+            var category_slug = item["category_slug"];
+            var product_slug = item["slug"];
 
-            html +=
-              "<a  href='/product/" +
-              key +
-              "/" +
-              item.table +
-              "/" +
-              item.subcategory_id +
-              "/" +
-              section +
-              "/" +
-              group_name +
-              "/" +
-              name +
-              "'>";
+            html += "<a href='/collection/" + category_slug + "/" + product_slug + "'>";
             if (scr > 768) {
               html += "<div class='item'>" + "<div style='width: 30%'>";
+              
               if (item.photo == "") {
                 html +=
                   "<img src='/assets/images/noimage.png' style='width: 100%'/>";
               } else {
                 html +=
-                  "<img src='/assets/images/products_home/" +
-                  item["photo"] +
-                  "' style='width: 100% ;height: 114px'/>";
+                  "<img src='/assets/images/products/" + item["photo"] + "' style='width: 100% ;height: 114px'/>";
               }
+
               html +=
                 "</div>" +
-                "<div style='width: 55% ;padding-top: 30px;'>" +
+                "<div style='width: 55%;'>" +
                 "<div>" +
-                item["subcategory_id"] +
+                item["sku"] +
                 "</div>" +
                 "<div>" +
                 item["name"] +
@@ -1518,7 +1504,7 @@ function totalSearch(event, type) {
                 "<div class='item'>" +
                 "<div style='width: 78% ;'>" +
                 "<div>" +
-                item["subcategory_id"] +
+                item["sku"] +
                 "</div>" +
                 "<div>" +
                 item["name"] +
@@ -1542,14 +1528,6 @@ function totalSearch(event, type) {
       },
     });
   }, delay);
-}
-
-function replaceDataToPath($path) {
-  if ($path == undefined) return $path;
-  if ($path.indexOf("/")) {
-    $path = $path.replace(/[/]/g, ":::");
-  }
-  return $path;
 }
 
 function searchSelTableGroup() {
