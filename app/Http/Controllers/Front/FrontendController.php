@@ -151,7 +151,7 @@ class FrontendController extends Controller
             $category_slug = $category->slug;
 
             $products = Product::where('status', '=', 1)
-                ->where('category_id', $category_id)
+                ->where('category_id', 'like', '%'.$category_id.'%')
                 ->orderBy('id', 'desc')
                 ->take(9)
                 ->get();

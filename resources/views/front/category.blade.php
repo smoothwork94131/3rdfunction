@@ -132,11 +132,11 @@
                                             <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
                                         </span>
                                         @else
-                                        <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add', ['db' => 'products', 'id' => $prod->id]) }}"  style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
+                                        <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add', ['db' => $category->slug, 'id' => $prod->id]) }}"  style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                             <i class="icofont-cart"></i> {{ $langg->lang56 }}
                                         </span>
                                         <span class="add-to-cart-quick add-to-cart-btn"
-                                            data-href="{{ route('product.cart.quickadd', ['db' => 'products', 'id' => $prod->id]) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
+                                            data-href="{{ route('product.cart.quickadd', ['db' => $category->slug, 'id' => $prod->id]) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                             <i class="icofont-cart"></i> {{ $langg->lang251 }}
                                         </span>
                                         @endif

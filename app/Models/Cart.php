@@ -23,7 +23,7 @@ class Cart extends Model
 
 // **************** ADD TO CART *******************
 
-    public function add($item, $db, $id, $size, $color, $keys, $values, $category, $section, $category_slug)
+    public function add($item, $db, $id, $size, $color, $keys, $values, $category_slug)
     {
         $size_cost = 0;
         $storedItem = ['db'=>$db, 'qty' => 0, 'size_key' => 0, 'size_qty' => $item->size_qty, 'size_price' => $item->size_price, 'size' => $item->size, 'color' => $item->color, 'stock' => $item->stock, 'price' => $item->price, 'item' => $item, 'license' => '', 'dp' => '0', 'keys' => $keys, 'values' => $values, 'category_slug' => $category_slug];

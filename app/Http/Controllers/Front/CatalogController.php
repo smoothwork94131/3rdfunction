@@ -39,7 +39,7 @@ class CatalogController extends Controller
         $category = Category::where('slug', $category_slug)->first();
         if($category) {
             $category_id = $category->id;
-            $products = Product::where('category_id', $category_id)->get();
+            $products = Product::where('category_id', 'like', '%'.$category_id.'%')->get();
             return view('front.category', compact('products', 'category', 'colorsetting_style1', 'colorsetting_style2'));
         }
     }
@@ -53,7 +53,7 @@ class CatalogController extends Controller
             $category_id = $category->id;
         }
 
-        $productt = Product::where('category_id', $category_id)->where('slug', '=', $product_slug)->firstOrFail();
+        $productt = Product::where('category_id', 'like', '%'.$category_id.'%')->where('slug', '=', $product_slug)->firstOrFail();
         $productt->views += 1;
         $productt->update();
         

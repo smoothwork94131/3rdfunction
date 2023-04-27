@@ -63,8 +63,7 @@ class CartController extends Controller
     public function addtocart($db, $id)
     {
         $prod = Product::where('id', $id)->first();
-        $category_id = $prod->category_id;
-        $category_slug = Category::find($category_id)->category_slug;
+        $category_slug = $db;
         
         $keys = '';
         $values = '';
@@ -159,8 +158,7 @@ class CartController extends Controller
     public function addcart($db, $id)
     {
         $prod = Product::where('id', $id)->first();
-        $category_id = $prod->category_id;
-        $category_slug = Category::find($category_id)->category_slug;
+        $category_slug = $db;
         
         // Set Attrubutes
         
@@ -305,8 +303,7 @@ class CartController extends Controller
         $values = $values == "" ? '' : implode(',', $values);
         
         $prod = Product::where('id', $id)->first();
-        $category_id = $prod->category_id;
-        $category_slug = Category::find($category_id)->category_slug;
+        $category_slug = $db;
 
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -414,8 +411,7 @@ class CartController extends Controller
         $keys = $keys == "" ? '' : implode(',', $keys);
 
         $prod = Product::where('id', $id)->first();
-        $category_id = $prod->category_id;
-        $category_slug = Category::find($category_id)->category_slug;
+        $category_slug = $db;
 
         $values = $values == "" ? '' : implode(',', $values);
         if (Session::has('currency')) {
