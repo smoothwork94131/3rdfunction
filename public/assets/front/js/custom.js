@@ -1472,7 +1472,7 @@ function totalSearch(event, type) {
             var category_slug = item["category_slug"];
             var product_slug = item["slug"];
 
-            html += "<a href='/collection/" + category_slug + "/" + product_slug + "'>";
+            html += "<a href='/collection/" + category_slug + "/products/" + product_slug + "'>";
             if (scr > 768) {
               html += "<div class='item'>" + "<div style='width: 30%'>";
               
