@@ -506,7 +506,7 @@
                              -->
                                 <p class='title'>Tractor Brothers - Greensburg</p>
                                 <p>113 Hartman Road<br>Greensburg PA 15601</p>
-                                <p><a href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '36478') }}'>(Map & Hours)</a></p>
                                 <p>(724) 691-0200</p>
                                 <p><a href="https://www.facebook.com/TractorBros" class='btn btn-primary'>
                                         <i class="fab fa-facebook"></i>
@@ -611,7 +611,7 @@
                                 <p class='title'>Tractor Brothers - Butler</p>
                                 <p>520 Evans City Road<br>Butler, PA 16001</p>
 
-                                <p><a href='https://www.tractorbrothers.com/locations/37100'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '37100') }}'>(Map & Hours)</a></p>
                                 <p>(724) 482-6288</p>
 
                             </div>
@@ -661,7 +661,7 @@
                                 <p class='title'>Tractor Brothers - Stoneboro</p>
                                 <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
 
-                                <p><a href='https://www.tractorbrothers.com/locations/37101'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '37101') }}'>(Map & Hours)</a></p>
                                 <p>(724) 253-2035</p>
 
                             </div>
