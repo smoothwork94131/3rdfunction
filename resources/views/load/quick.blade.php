@@ -17,13 +17,13 @@
                 </div>
             @else
                 <img class="quick-zoom" id="xzoom-magnific1"
-                    src="{{ asset('assets/images/products/' . $gs->prod_image) }}"
-                    xoriginal="{{ asset('assets/images/products/' . $gs->prod_image) }}" />
+                    src="{{ asset('assets/images/noimage.png') }}"
+                    xoriginal="{{ asset('assets/images/noimage.png') }}" />
                 <div class="xzoom-thumbs">
                     <div class="quick-all-slider">
-                        <a href="{{ asset('assets/images/products/' . $gs->prod_image) }}">
+                        <a href="{{ asset('assets/images/noimage.png') }}">
                             <img class="quick-zoom-gallery" width="80"
-                                src="{{ asset('assets/images/products/' . $gs->prod_image) }}"
+                                src="{{ asset('assets/images/noimage.png') }}"
                                 title="The description goes here">
                         </a>
                     </div>
