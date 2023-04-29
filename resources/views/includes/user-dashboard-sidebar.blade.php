@@ -43,6 +43,12 @@
                     {{ $langg->lang201 }}
                 </a>
             </li>
+
+            <li class="{{ $link == route('user-wishlists') ? 'active':'' }}">
+                <a href="{{ route('user-wishlists') }}">
+                    {{ $langg->lang168 }}
+                </a>
+            </li>
             
             @if($gs->is_affilate == 1)
 
