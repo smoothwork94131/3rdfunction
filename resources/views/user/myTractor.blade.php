@@ -52,10 +52,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @forelse ($tractors as $tractor)
+                                            @forelse ($user_tractors as $user_tractor)
                                             <tr>
                                                 <td style="text-align:center;">
-                                                    {{ $tractor->model }}
+                                                    {{ $user_tractor->product->name }}
                                                 </td>
                                                 <td style="text-align:center;">
                                                     <div class="dropdown">
@@ -63,15 +63,15 @@
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-primary">
-                                                            <a href="javascript:void(0)" onClick="editTractor({{$tractor->id}}, '{{$tractor->series}}', '{{$tractor->model}}', '{{$tractor->hours}}', '{{$tractor->hour_per_week}}', '{{$tractor->start_date}}', '{{$tractor->end_date}}')" class="dropdown-item edit-tractor"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Tractor</a>
-                                                            <a href="{{route('user-remove-my-tractor', ['id' => $tractor->id])}}" class="dropdown-item trash-tractor"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Tractor</a>
+                                                            <a href="javascript:void(0)" onClick="editTractor({{$user_tractor->id}}, '{{$user_tractor->category_id}}', '{{$user_tractor->product_id}}', '{{$user_tractor->hours}}', '{{$user_tractor->hour_per_week}}', '{{$user_tractor->start_date}}', '{{$user_tractor->end_date}}')" class="dropdown-item edit-tractor"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Tractor</a>
+                                                            <a href="{{route('user-remove-my-tractor', ['id' => $user_tractor->id])}}" class="dropdown-item trash-tractor"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Tractor</a>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="2">No DATA</td>
+                                                <td colspan="2" style="text-align: center;">No DATA</td>
                                             </tr>
                                             @endforelse
                                             </tbody>
@@ -97,17 +97,17 @@
                             <input type="hidden" id="tractor_id" name="tractor_id" value="">
                             <div class="form-group">
                                 <label class='name'>Series</label>
-                                <select class="form-control value" name="series" id="series" onchange='changeSeries(event)'>
-                                    @foreach($series as $item)
-                                    <option value="{{$item->series}}">{{$item->series}}</option>
+                                <select class="form-control value" name="category_id" id="category_id" onchange='changeCategory(event)'>
+                                    @foreach($categories as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class='name'>Model</label>
-                                <select class="form-control value" name="model" id="model">
-                                    @foreach($model as $key => $item)
-                                    <option value={{$key}}>{{$key}}</option>
+                                <select class="form-control value" name="product_id" id="product_id">
+                                    @foreach($tractors as $key => $item)
+                                    <option value={{$item->id}}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -140,22 +140,28 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.product_table').DataTable({
-                "paging": false,
-                "ordering": false,
-                "info": false,
-                "searching": false,
-                "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
+        @php
+            if($user_tractors->count() > 0) {
+        @endphp
+            $(document).ready(function () {
+                $('.product_table').DataTable({
+                    "paging": false,
+                    "ordering": false,
+                    "info": false,
+                    "searching": false,
+                    "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
+                });
             });
-        });
+        @php
+        }
+        @endphp
         
-        function changeSeries(event) {
+        function changeCategory(event) {
             var value = event.target.value ;
-            getModel(value);  
+            getTractor(value);  
         }
 
-        function getModel(series) {
+        function getTractor(category_id) {
             $.ajax({
                 url: "{{route('user-get-my-tractor-model')}}",
                 headers: {
@@ -163,15 +169,16 @@
                 },
                 async:false,
                 data:{
-                    series: series
+                    category_id: category_id
                 },
                 type:'post',
                 success:function(result) {
                     var html = "" ;
                     for(key in result) {
-                        html+="<option>"+key+"</option>" ;
+                        console.log(result[key])
+                        html+="<option value='"+ result[key].id +"'>"+result[key].name+"</option>" ;
                     }
-                    $("#my_tractor_form #model").html(html) ;
+                    $("#my_tractor_form #product_id").html(html) ;
                     return true;
                 },error:function() {
                     return false;
@@ -179,12 +186,12 @@
             }) ;
         }
 
-        function editTractor(id, series, model, hours, hour_per_week, start_date, end_date) {
-            getModel(series);
+        function editTractor(id, category_id, product_id, hours, hour_per_week, start_date, end_date) {
+            getTractor(category_id);
 
             $("#tractor_id").val(id);
-            $("#series").val(series);
-            $("#model").val(model);
+            $("#category_id").val(category_id);
+            $("#product_id").val(product_id);
             $("#hours").val(hours);
             $("#hour_per_week").val(hour_per_week);
             $("#start_date").val(start_date);

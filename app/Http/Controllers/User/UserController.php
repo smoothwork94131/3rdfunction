@@ -13,6 +13,8 @@ use App\Models\Subscription;
 use App\Models\Generalsetting;
 use App\Models\UserSubscription;
 use App\Models\FavoriteSeller;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\MyTractor;
 use DB ;
 
@@ -169,11 +171,11 @@ class UserController extends Controller
 
     public function my_tractor() {
         $user_id = Auth::id();
-        $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
-        $series = DB::table("categories")->select("name as series")->where("parent", ">", "0")->get()->toArray();
-        $model = $this->getTractorModel($series[0]->series) ;
+        $user_tractors = MyTractor::where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
+        $categories = Category::all();
+        $tractors = Product::where('category_id', $categories[0]->id)->get();
 
-        return view('user.myTractor', compact('tractors', 'series', 'model'));
+        return view('user.myTractor', compact('user_tractors', 'categories', 'tractors'));
     }
     public function save_my_tractor(Request $request) {
         
@@ -231,14 +233,8 @@ class UserController extends Controller
     }
 
     public function get_my_tractor_model(Request $request) {
-        $series = $request->series ;
-        $model = $this->getTractorModel($series) ;
-        return response()->json($model) ;
-    }
-
-    public function getTractorModel($series) {
-        $series = strtolower($series) ;
-        $model =  DB::table("{$series}_categories")->select("model")->get()->groupBy("model")->toArray() ;
-        return $model ;
+        $category_id = $request->category_id;
+        $tractors = Product::where('category_id', $category_id)->get();
+        return response()->json($tractors);
     }
 }
