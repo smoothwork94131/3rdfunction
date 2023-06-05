@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'main'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,14 +39,29 @@ return [
             'prefix' => '',
         ],
 
-        'mysql' => [
+        'main' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'shopping'),
-            'username' => env('DB_USERNAME', 'alex'),
-            'password' => env('DB_PASSWORD', 'XX&O6gzv]{6P'),
-            'unix_socket' => env('DB_SOCKET', ''),
+            'host' => env('DB_MAIN_HOST', '127.0.0.1'),
+            'port' => env('DB_MAIN_PORT', '3306'),
+            'database' => env('DB_MAIN_DATABASE', ''),
+            'username' => env('DB_MAIN_USERNAME', ''),
+            'password' => env('DB_MAIN_PASSWORD', ''),
+            'unix_socket' => env('DB_MAIN_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'product' => [
+            'driver' => 'mysql',
+            'host' => env('DB_PRODUCT_HOST', '127.0.0.1'),
+            'port' => env('DB_PRODUCT_PORT', '3306'),
+            'database' => env('DB_PRODUCT_DATABASE', ''),
+            'username' => env('DB_PRODUCT_USERNAME', ''),
+            'password' => env('DB_PRODUCT_PASSWORD', ''),
+            'unix_socket' => env('DB_PRODUCT_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
