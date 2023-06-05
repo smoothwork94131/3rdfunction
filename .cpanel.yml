@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - DEPLOYPATH=/home/nmykio5/public_html/3rdfunction.com/
+    - DEPLOYPATH=/home/colthansen/public_html/3rdfunction.com/
     - /bin/cp -R * $DEPLOYPATH
