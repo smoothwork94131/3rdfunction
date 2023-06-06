@@ -16,7 +16,7 @@
                         <div class="product-description">
                             <div class="body-area">
                                 @include('includes.admin.form-error')
-                                <form id="geniusformdata" action="{{route('admin-prod-feature',$data->id)}}"
+                                <form id="geniusformdata" action="{{route('admin-prod-feature-submit',$data->id)}}"
                                       method="POST" enctype="multipart/form-data">
                                     {{csrf_field()}}
 
