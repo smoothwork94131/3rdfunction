@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - DEPLOYPATH=/home/colthansen/public_html/pdfdataminder.com/
+    - DEPLOYPATH=/home/colthansen/public_html/pdfdataminer.com/
     - /bin/cp -R * $DEPLOYPATH
