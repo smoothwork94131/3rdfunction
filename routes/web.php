@@ -1049,7 +1049,7 @@ Route::prefix('user')->group(function () {
 
 // ************************************ USER SECTION ENDS**********************************************
 
-Route::group(['middleware' => 'maintenance'], function () {
+Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
 
     // ************************************ FRONT SECTION **********************************************
 
@@ -1171,3 +1171,5 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // ************************************ FRONT SECTION ENDS**********************************************
 });
+
+Route::get('/give_cookie/{cookie}', 'Front\FrontendController@cookie')->name('front.cookie');

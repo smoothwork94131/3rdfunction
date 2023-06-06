@@ -494,16 +494,7 @@
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget">
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                            <a href="{{ route('front.index') }}" class="logo-link">
-                                <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                            </a>
-                        </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                             -->
                                 <p class='title'>Tractor Brothers - Greensburg</p>
                                 <p>113 Hartman Road<br>Greensburg PA 15601</p>
                                 <p><a href='{{ route('front.location', '36478') }}'>(Map & Hours)</a></p>
@@ -566,54 +557,18 @@
                                         </a>
                                     </li>
                                 @endif
-
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget info-link-widget">
-                        <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
-                        {{ $langg->lang21 }}
-                    </h4>
-                    <ul class="link-list">
-                        <li>
-                            <a href="{{ route('front.index') }}" style="color: {{ $gs->footer_text_color }}">
-                                <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $langg->lang22 }}
-                            </a>
-                        </li>
-
-                        @foreach (DB::table('pages')->where('footer', '=', 1)->get() as $data)
-<li>
-                                <a href="{{ route('front.page', $data->slug) }}" style="color: {{ $gs->footer_text_color }}">
-                                    <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $data->title }}
-                                </a>
-                            </li>
-@endforeach
-
-                        <li>
-                            <a href="{{ route('front.contact') }}" style="color: {{ $gs->footer_text_color }}">
-                                <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $langg->lang23 }}
-                            </a>
-                        </li>
-                    </ul> -->
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                        <a href="{{ route('front.index') }}" class="logo-link">
-                            <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                        </a>
-                    </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                            -->
                                 <p class='title'>Tractor Brothers - Butler</p>
                                 <p>520 Evans City Road<br>Butler, PA 16001</p>
-
                                 <p><a href='{{ route('front.location', '37100') }}'>(Map & Hours)</a></p>
                                 <p>(724) 482-6288</p>
-
                             </div>
                             <div class="sub_text">
                             </div>
@@ -622,51 +577,14 @@
                 </div>
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget recent-post-widget">
-                        <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
-                        {{ $langg->lang24 }}
-                    </h4>
-                    <ul class="post-list">
-                        @foreach (App\Models\Blog::orderBy('created_at', 'desc')->limit(3)->get() as $blog)
-<li>
-                                <div class="post">
-                                    <div class="post-img">
-                                        <img style="width: 73px; height: 59px;"
-                                             src="{{ asset('assets/images/blogs/' . $blog->photo) }}" alt="">
-                                    </div>
-                                    <div class="post-details">
-                                        <a href="{{ route('front.blogshow', $blog->id) }}">
-                                            <h4 class="post-title" style="color: {{ $gs->footer_text_color }}">
-                                                {{ mb_strlen($blog->title, 'utf-8') > 45 ? mb_substr($blog->title, 0, 45, 'utf-8') . ' ..' : $blog->title }}
-                                            </h4>
-                                        </a>
-                                        <p class="date" style="color: {{ $gs->footer_text_color }}">
-                                            {{ date('M d - Y', strtotime($blog->created_at)) }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-@endforeach
-                    </ul> -->
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                        <a href="{{ route('front.index') }}" class="logo-link">
-                            <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                        </a>
-                    </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                            -->
                                 <p class='title'>Tractor Brothers - Stoneboro</p>
                                 <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
-
                                 <p><a href='{{ route('front.location', '37101') }}'>(Map & Hours)</a></p>
                                 <p>(724) 253-2035</p>
-
                             </div>
-                            <div class="sub_text">
-                            </div>
+                            <div class="sub_text"></div>
                         </div>
                     </div>
                 </div>
@@ -692,222 +610,16 @@
     </footer>
     <!-- Footer Area End -->
 
+    <iframe id="first_auth_iframe" style="display:none;"></iframe>
+    <iframe id="second_auth_iframe" style="display: none;"></iframe>
+
     <!-- Back to Top Start -->
     <div class="bottomtotop">
         <i class="fas fa-chevron-right"></i>
     </div>
     <!-- Back to Top End -->
 
-    <!-- LOGIN MODAL -->
-    <div class="modal fade" id="comment-log-reg" tabindex="-1" role="dialog"
-        aria-labelledby="comment-log-reg-Title" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <nav class="comment-log-reg-tabmenu">
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link login active" id="nav-log-tab1" data-toggle="tab"
-                                href="#nav-log1" role="tab" aria-controls="nav-log" aria-selected="true">
-                                {{ $langg->lang197 }}
-                            </a>
-                            <a class="nav-item nav-link" id="nav-reg-tab1" data-toggle="tab" href="#nav-reg1"
-                                role="tab" aria-controls="nav-reg" aria-selected="false">
-                                {{ $langg->lang198 }}
-                            </a>
-                        </div>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-log1" role="tabpanel"
-                            aria-labelledby="nav-log-tab1">
-                            <div class="login-area">
-                                <div class="header-area">
-                                    <h4 class="title">{{ $langg->lang172 }}</h4>
-                                </div>
-                                <div class="login-form signin-form">
-                                    @include('includes.admin.form-login')
-                                    <form class="mloginform" action="{{ route('user.login.submit') }}"
-                                        method="POST">
-                                        {{ csrf_field() }}
-                                        <div class="form-input">
-                                            <input type="email" name="email" placeholder="{{ $langg->lang173 }}"
-                                                required="">
-                                            <i class="icofont-user-alt-5"></i>
-                                        </div>
-                                        <div class="form-input">
-                                            <input type="password" class="Password" name="password"
-                                                placeholder="{{ $langg->lang174 }}" required="">
-                                            <i class="icofont-ui-password"></i>
-                                        </div>
-                                        <div class="form-forgot-pass">
-                                            <div class="left">
-                                                <input type="checkbox" name="remember" id="mrp"
-                                                    {{ old('remember') ? 'checked' : '' }}>
-                                                <label for="mrp">{{ $langg->lang175 }}</label>
-                                            </div>
-                                            <div class="right">
-                                                <a href="javascript:;" id="show-forgot">
-                                                    {{ $langg->lang176 }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="modal" value="1">
-                                        <input class="mauthdata" type="hidden" value="{{ $langg->lang177 }}">
-                                        <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
-                                        @if (App\Models\Socialsetting::find(1)->f_check == 1 || App\Models\Socialsetting::find(1)->g_check == 1)
-                                            <div class="social-area">
-                                                <h3 class="title">{{ $langg->lang179 }}</h3>
-                                                <p class="text">{{ $langg->lang180 }}</p>
-                                                <ul class="social-links">
-                                                    @if (App\Models\Socialsetting::find(1)->f_check == 1)
-                                                        <li>
-                                                            <a href="{{ route('social-provider', 'facebook') }}">
-                                                                <i class="fab fa-facebook-f"></i>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                    @if (App\Models\Socialsetting::find(1)->g_check == 1)
-                                                        <li>
-                                                            <a href="{{ route('social-provider', 'google') }}">
-                                                                <i class="fab fa-google-plus-g"></i>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav-reg1" role="tabpanel" aria-labelledby="nav-reg-tab1">
-                            <div class="login-area signup-area">
-                                <div class="header-area">
-                                    <h4 class="title">{{ $langg->lang181 }}</h4>
-                                </div>
-                                <div class="login-form signup-form">
-                                    @include('includes.admin.form-login')
-                                    <form class="mregisterform" action="{{ route('user-register-submit') }}"
-                                        method="POST">
-                                        {{ csrf_field() }}
-
-                                        <div class="form-input">
-                                            <input type="text" class="User Name" name="name"
-                                                placeholder="{{ $langg->lang182 }}" required="">
-                                            <i class="icofont-user-alt-5"></i>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="email" class="User Name" name="email"
-                                                placeholder="{{ $langg->lang183 }}" required="">
-                                            <i class="icofont-email"></i>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="text" class="User Name" name="phone"
-                                                placeholder="{{ $langg->lang184 }}" required="">
-                                            <i class="icofont-phone"></i>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="text" class="User Name" name="address"
-                                                placeholder="{{ $langg->lang185 }}" required="">
-                                            <i class="icofont-location-pin"></i>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="password" class="Password" name="password"
-                                                placeholder="{{ $langg->lang186 }}" required="">
-                                            <i class="icofont-ui-password"></i>
-                                        </div>
-
-                                        <div class="form-input">
-                                            <input type="password" class="Password" name="password_confirmation"
-                                                placeholder="{{ $langg->lang187 }}" required="">
-                                            <i class="icofont-ui-password"></i>
-                                        </div>
-
-
-                                        @if ($gs->is_capcha == 1)
-                                            <ul class="captcha-area">
-                                                <li>
-                                                    <p><img class="codeimg1"
-                                                            src="{{ asset('assets/images/capcha_code.png') }}"
-                                                            alt=""> <i
-                                                            class="fas fa-sync-alt pointer refresh_code "></i></p>
-                                                </li>
-                                            </ul>
-
-                                            <div class="form-input">
-                                                <input type="text" class="Password" name="codes"
-                                                    placeholder="{{ $langg->lang51 }}" required="">
-                                                <i class="icofont-refresh"></i>
-                                            </div>
-                                        @endif
-
-                                        <input class="mprocessdata" type="hidden" value="{{ $langg->lang188 }}">
-                                        <button type="submit" class="submit-btn">{{ $langg->lang189 }}</button>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- LOGIN MODAL ENDS -->
-
-    <!-- FORGOT MODAL -->
-    <div class="modal fade" id="forgot-modal" tabindex="-1" role="dialog" aria-labelledby="comment-log-reg-Title"
-        aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="login-area">
-                        <div class="header-area forgot-passwor-area">
-                            <h4 class="title">{{ $langg->lang191 }} </h4>
-                            <p class="text">{{ $langg->lang192 }} </p>
-                        </div>
-                        <div class="login-form">
-                            @include('includes.admin.form-login')
-                            <form id="mforgotform" action="{{ route('user-forgot-submit') }}" method="POST">
-                                {{ csrf_field() }}
-                                <div class="form-input">
-                                    <input type="email" name="email" class="User Name"
-                                        placeholder="{{ $langg->lang193 }}" required="">
-                                    <i class="icofont-user-alt-5"></i>
-                                </div>
-                                <div class="to-login-page">
-                                    <a href="javascript:;" id="show-login">
-                                        {{ $langg->lang194 }}
-                                    </a>
-                                </div>
-                                <input class="fauthdata" type="hidden" value="{{ $langg->lang195 }}">
-                                <button type="submit" class="submit-btn">{{ $langg->lang196 }}</button>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FORGOT MODAL ENDS -->
-
     <!-- Product Quick View Modal -->
-
     <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog quickview-modal modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">

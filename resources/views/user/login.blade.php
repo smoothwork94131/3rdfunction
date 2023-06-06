@@ -29,20 +29,16 @@
                                     <form class="mloginform" action="{{ route('user.login.submit') }}" method="POST">
                                         {{ csrf_field() }}
                                         <div class="form-input">
-                                            <input type="email" name="email" placeholder="{{ $langg->lang173 }}"
-                                                   required="">
+                                            <input type="email" name="email" placeholder="{{ $langg->lang173 }}" required="">
                                             <i class="icofont-user-alt-5"></i>
                                         </div>
                                         <div class="form-input">
-                                            <input type="password" class="Password" name="password"
-                                                   placeholder="{{ $langg->lang174 }}"
-                                                   required="">
+                                            <input type="password" class="Password" name="password" placeholder="{{ $langg->lang174 }}" required="">
                                             <i class="icofont-ui-password"></i>
                                         </div>
                                         <div class="form-forgot-pass">
                                             <div class="left">
-                                                <input type="checkbox" name="remember"
-                                                       id="mrp" {{ old('remember') ? 'checked' : '' }}>
+                                                <input type="checkbox" name="remember" id="mrp" checked>
                                                 <label for="mrp">{{ $langg->lang175 }}</label>
                                             </div>
                                             <div class="right">
@@ -51,8 +47,6 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="modal" value="1">
-                                        <input class="mauthdata" type="hidden" value="{{ $langg->lang177 }}">
                                         <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
                                         @if(App\Models\Socialsetting::find(1)->f_check == 1 || App\Models\Socialsetting::find(1)->g_check ==1)
                                             <div class="social-area">

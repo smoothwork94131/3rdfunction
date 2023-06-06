@@ -20,10 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\HTTPSConnection::class,
-        // \RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes::class,
-        // \RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch::class,
-        // \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveComments::class,
-        // \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
+        \Fruitcake\Cors\HandleCors::class,
     ];
 
     /**
@@ -68,5 +65,6 @@ class Kernel extends HttpKernel
         'permissions' => \App\Http\Middleware\Permissions::class,
         'super' => \App\Http\Middleware\SuperAdmin::class,
         'maintenance' => \App\Http\Middleware\MaintenanceMode::class,
+        'checkAuthCookie' => \App\Http\Middleware\CheckAuthCookie::class,
     ];
 }

@@ -191,6 +191,53 @@ $(function ($) {
     });
     // LOGIN FORM ENDS
 
+    // MODAL LOGIN FORM
+    $(".mloginform").on("submit", function (e) {
+      var $this = $(this).parent();
+      e.preventDefault();
+      $this.find("button.submit-btn").prop("disabled", true);
+      $this.find(".alert-info").show();
+      var authdata = $this.find(".mauthdata").val();
+      $(".signin-form .alert-info p").html(authdata);
+      $.ajax({
+        method: "POST",
+        url: $(this).prop("action"),
+        data: new FormData(this),
+        dataType: "JSON",
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+          if (data.errors) {
+            $this.find(".alert-success").hide();
+            $this.find(".alert-info").hide();
+            $this.find(".alert-danger").show();
+            $this.find(".alert-danger ul").html("");
+            for (var error in data.errors) {
+              $(".signin-form .alert-danger p").html(data.errors[error]);
+            }
+          } else {
+            $this.find(".alert-info").hide();
+            $this.find(".alert-danger").hide();
+            $this.find(".alert-success").show();
+            $this.find(".alert-success p").html("Success !");
+            if (data == 1) {
+              location.reload();
+            } else {
+              var main_url = data.main_url;
+              var first_login_url = data.first_login_url;
+              var second_login_url = data.second_login_url;
+
+              $('#first_auth_iframe').attr('src', first_login_url);
+              $('#second_auth_iframe').attr('src', second_login_url);
+              window.location = main_url;
+            }
+          }
+          $this.find("button.submit-btn").prop("disabled", false);
+        },
+      });
+    });
+
     // REGISTER FORM
     $("#registerform").on("submit", function (e) {
       var $this = $(this).parent();
@@ -232,6 +279,50 @@ $(function ($) {
       });
     });
     // REGISTER FORM ENDS
+
+    // MODAL REGISTER FORM
+    $(".mregisterform").on("submit", function (e) {
+      e.preventDefault();
+      var $this = $(this).parent();
+      $this.find("button.submit-btn").prop("disabled", true);
+      $this.find(".alert-info").show();
+      var processdata = $this.find(".mprocessdata").val();
+      $this.find(".alert-info p").html(processdata);
+      $.ajax({
+        method: "POST",
+        url: $(this).prop("action"),
+        data: new FormData(this),
+        dataType: "JSON",
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+          if (data == 1) {
+            location.reload();
+          } else {
+            if (data.errors) {
+              $this.find(".alert-success").hide();
+              $this.find(".alert-info").hide();
+              $this.find(".alert-danger").show();
+              $this.find(".alert-danger ul").html("");
+              for (var error in data.errors) {
+                $this.find(".alert-danger p").html(data.errors[error]);
+              }
+              $this.find("button.submit-btn").prop("disabled", false);
+            } else {
+              $this.find(".alert-info").hide();
+              $this.find(".alert-danger").hide();
+              $this.find(".alert-success").show();
+              $this.find(".alert-success p").html(data);
+              $this.remove();
+            }
+          }
+
+          $(".refresh_code").click();
+        },
+      });
+    });
+    // MODAL REGISTER FORM ENDS
 
     // FORGOT FORM
 

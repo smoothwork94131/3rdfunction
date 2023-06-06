@@ -13,6 +13,7 @@
         "cartalyst/stripe-laravel": "*",
         "doctrine/dbal": "*",
         "fideloper/proxy": "*",
+        "fruitcake/laravel-cors": "^3.0",
         "instamojo/instamojo-php": "*",
         "intervention/image": "*",
         "laravel/framework": "*",
