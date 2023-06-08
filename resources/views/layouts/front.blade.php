@@ -7,32 +7,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @php
+        $page_title = "3rdFunction";
+        if(isset($category)) {
+            $page_title .= " " . $category->name;
+        }
+    @endphp
+
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
-        <title>{{ $gs->title }}</title>
+        
     @elseif(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
         <meta name="description" content="{{ $blog->meta_description }}">
-        <title>{{ $gs->title }}</title>
     @elseif(isset($productt))
         <meta property="og:title" content="{{ $productt->name }}" />
-        <meta property="og:description"
-            content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}" />
+        <meta property="og:description" content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
-        <meta name="author" content="Davehansen.com">
-        <title>{{ substr($productt->name, 0, 11) . '-' }}{{ $gs->title }}</title>
+        @php
+            $page_title = substr($productt->name, 0, 11) . '-' . $page_title;
+        @endphp
     @else
         <meta name="keywords" content="{{ $seo->meta_keys }}">
-        <meta name="author" content="Davehansen.com">
-        <title>{{ $gs->title }}</title>
     @endif
 
+    <meta name="author" content="Davehansen.com">
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
+
+    <title>{{ $page_title }}</title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/' . $gs->favicon) }}" />
