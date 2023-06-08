@@ -27,7 +27,7 @@
         <meta property="og:description" content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
         @php
-            $page_title = substr($productt->name, 0, 11) . '-' . $page_title;
+            $page_title .= " " . $productt->name;
         @endphp
     @else
         <meta name="keywords" content="{{ $seo->meta_keys }}">
