@@ -18,14 +18,28 @@
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
-        
     @elseif(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
         <meta name="description" content="{{ $blog->meta_description }}">
     @elseif(isset($productt))
-        <meta property="og:title" content="{{ $productt->name }}" />
-        <meta property="og:description" content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}" />
+        @php
+            $og_currency = "USD";
+            $og_type = "product";
+            $og_availability = "instock";
+        @endphp
+
+        <meta property="product:price:amount" content="{{ $productt->price?? 0 }}" />
+        <meta property="product:price:currency" content="{{ $og_currency }}" />
+        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:site_name" content="{{ "3rdfunction" }}" />
+        <meta property="keywords" content="{{ $productt->name }}, {{ $productt->sku }}" />
+        <meta property="description" content="{{ $productt->description?? '' }}" />
+        <meta property="og:title" content="{{ $productt->name?? '' }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
+        <meta property="og:type" content="{{ $og_type}}" />
+        <meta property="og:availability" content="{{ $og_availability}}" />
+        <meta property="og:description" content="{{ $productt->description?? '' }}, {{ $og_currency }}, {{ $og_type}}, {{ $og_availability }}" />
+
         @php
             $page_title .= " " . $productt->name;
         @endphp
