@@ -1378,7 +1378,7 @@ class CheckoutController extends Controller
         $input = '{
             title: "'.$prod['item']->name.'", 
             descriptionHtml: "'.$prod['item']->name.'", 
-            vendor: "Tractor Brothers",
+            vendor: "Tractor Valves",
             variants: [
                 {
                     sku: "'.$prod['item']->sku.'",

@@ -130,15 +130,15 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/new-models">New Models</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/factory-promotions">Factory
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/factory-promotions">Factory
                                     Promotions</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link root-link"
-                            href="https://www.tractorbrothers.com/search/inventory/availability/In%20Stock"
+                            href="https://www.tractorvalves.com/search/inventory/availability/In%20Stock"
                             target="">
                             Inventory
                         </a>
@@ -170,8 +170,8 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/servicereq">Service Quote
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/services">Services</a></li>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/servicereq">Service Quote
                                     Request</a></li>
                         </ul>
                     </li>
@@ -181,11 +181,11 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/aboutus">Company Info</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/contactus">Contact Us</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/contactus">Contact Us</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/locations">Maps&Hours</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/locations">Maps&Hours</a>
                             </li>
                         </ul>
                     </li>
@@ -194,7 +194,7 @@
         </nav>
         <div class="header-tool header-base-tool ml-auto col-md-3 col-sm-3 col-lm-3">
             <div class="map_hour hidden-xs">
-                <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
+                <a href="https://www.tractorvalves.com/locations">Maps &amp; Hours</a>
             </div>
             <div class="cart">
                 <a href="/carts" class="cart-icon" title="Cart">
@@ -210,7 +210,7 @@
         <div class="header-tool header-min-tool ml-auto col-md-12 col-sm-12 col-lm-12;"
             style='height: 60px; line-height: 60px;'>
             <div class="map_hour hidden-xs" style='text-align: left; '>
-                <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
+                <a href="https://www.tractorvalves.com/locations">Maps &amp; Hours</a>
             </div>
             <div style='display: flex; justify-content: flex-end; '>
                 <div class="cart">
@@ -406,15 +406,15 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="collapse" id="collapse_new_model" style='position: unset !important'>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/new-models">New Models</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/factory-promotions">Factory
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/factory-promotions">Factory
                                     Promotions</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link root-link"
-                            href="https://www.tractorbrothers.com/search/inventory/availability/In%20Stock"
+                            href="https://www.tractorvalves.com/search/inventory/availability/In%20Stock"
                             target="">
                             Inventory
                         </a>
@@ -452,8 +452,8 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="collapse" id="collapse_services" style='position: unset !important'>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/servicereq">Service Quote
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/services">Services</a></li>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/servicereq">Service Quote
                                     Request</a></li>
                         </ul>
                     </li>
@@ -463,11 +463,11 @@
                                     class="fa fa-angle-down arrow-down"></i></span>
                         </a>
                         <ul class="collapse" id="collapse_info" style='position: unset !important'>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/aboutus">Company Info</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/contactus">Contact Us</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/contactus">Contact Us</a>
                             </li>
-                            <li class='nav-item'><a href="https://www.tractorbrothers.com/locations">Maps&Hours</a>
+                            <li class='nav-item'><a href="https://www.tractorvalves.com/locations">Maps&Hours</a>
                             </li>
                         </ul>
                     </li>
@@ -517,7 +517,7 @@
                     <div class="footer-widget">
                         <div class="footer-info-area">
                             <div class="text">
-                                <p class='title'>Tractor Brothers - Greensburg</p>
+                                <p class='title'>Tractor Valves - Greensburg</p>
                                 <p>113 Hartman Road<br>Greensburg PA 15601</p>
                                 <p><a href='{{ route('front.location', '36478') }}'>(Map & Hours)</a></p>
                                 <p>(724) 691-0200</p>
@@ -587,7 +587,7 @@
                     <div class="footer-widget info-link-widget">
                         <div class="footer-info-area">
                             <div class="text">
-                                <p class='title'>Tractor Brothers - Butler</p>
+                                <p class='title'>Tractor Valves - Butler</p>
                                 <p>520 Evans City Road<br>Butler, PA 16001</p>
                                 <p><a href='{{ route('front.location', '37100') }}'>(Map & Hours)</a></p>
                                 <p>(724) 482-6288</p>
@@ -601,7 +601,7 @@
                     <div class="footer-widget recent-post-widget">
                         <div class="footer-info-area">
                             <div class="text">
-                                <p class='title'>Tractor Brothers - Stoneboro</p>
+                                <p class='title'>Tractor Valves - Stoneboro</p>
                                 <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
                                 <p><a href='{{ route('front.location', '37101') }}'>(Map & Hours)</a></p>
                                 <p>(724) 253-2035</p>

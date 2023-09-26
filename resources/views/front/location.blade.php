@@ -103,7 +103,7 @@
                 new google.maps.Marker({
                     position: myLatLng,
                     map,
-                    title: "Welcome to Tractor Brothers!",
+                    title: "Welcome to Tractor Valves!",
                 });
 
             } else {
@@ -116,7 +116,7 @@
                 new google.maps.Marker({
                     position: myLatLng,
                     map,
-                    title: "Welcome to Tractor Brothers!",
+                    title: "Welcome to Tractor Valves!",
                 });
             }
         });
