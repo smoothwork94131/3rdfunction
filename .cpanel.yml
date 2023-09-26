@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - DEPLOYPATH=/home/nmykio5/public_html/3rdfunction.com/
+    - DEPLOYPATH=/home/tractorvalves/public_html/
     - /bin/cp -R * $DEPLOYPATH
