@@ -3,3 +3,4 @@ deployment:
   tasks:
     - DEPLOYPATH=/home/tractorvalves/public_html/
     - /bin/cp -R * $DEPLOYPATH
+    
